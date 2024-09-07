@@ -6,9 +6,9 @@
 <p>WELCOME TO OUR BOOKSTORE</p>
 <ul>
     {% for x in mybooks %}
-    <li>{{x.title}}</li>
-    <li>{{x.price}}</li>
-    <li>{{x.stock}}</li>
+    <h1>Title: {{x.title}}</h1>
+    <h3>Price: {{x.price}}</h3>
+    <h3>Instock: {{x.stock}}</h3>
 
     {% endfor %}
 </ul>
