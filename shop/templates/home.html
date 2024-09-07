@@ -4,6 +4,14 @@
 
 <h1>Hello World!</h1>
 <p>WELCOME TO OUR BOOKSTORE</p>
+<ul>
+    {% for x in mybooks %}
+    <li>{{x.title}}</li>
+    <li>{{x.price}}</li>
+    <li>{{x.stock}}</li>
+
+    {% endfor %}
+</ul>
 
 </body>
 </html>
