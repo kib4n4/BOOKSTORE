@@ -1,20 +1,48 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="{% static 'global.css' %}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+    <title>My Bookstore</title>
+</head>
 <body>
 
-<h1>Hello World!</h1>
-<p>WELCOME TO OUR BOOKSTORE</p>
-<ul>
-    {% for x in mybooks %}
-    <h1>Title: {{x.title}}</h1>
-    <h2>Author: {{x.author}}</h2>
-    <h3>Price: {{x.price}}</h3>
-    <h3>Instock: {{x.stock}}</h3>
+<header class="header">
+    <h1 class="header-title">Welcome to Our Bookstore</h1>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/">Home</a></li>
+            <li class="nav-item"><a href="/about/">About Us</a></li>
+            <li class="nav-item"><a href="/contact/">Contact</a></li>
+            <li class="nav-item"><a href="/books/">Books</a></li>
+            <li class="nav-item"><a href="/cart/">Cart</a> {{ cart_count }}</li>
+        </ul>
+    </nav>
+</header>
 
-    {% endfor %}
-</ul>
+<main class="main">
+    <section class="book-section">
+        <h2 class="section-title">Available Books</h2>
+        <ul class="book-list">
+            {% for x in mybooks %}
+            <li class="book-item">
+                <h3 class="book-title">Title: {{ x.title }}</h3>
+                <h4 class="book-author">Author: {{ x.author }}</h4>
+                <p class="book-price">Price: ${{ x.price }}</p>
+                <p class="book-stock">In Stock: {{ x.stock }}</p>
+            </li>
+            {% empty %}
+            <li class="book-item">No books available at the moment.</li>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
+
+<footer class="footer">
+    <p class="footer-text">&copy; {{ current_year }} My Bookstore. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

@@ -1,4 +1,100 @@
+/* global.css */
+
+/* Reset some default styles */
+body, h1, h2, h3, h4, p, ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+/* Body styles */
 body {
-    color: rgb(114, 7, 114);
-    background-color: aquamarine;
-  }
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Header styles */
+.header {
+  background: #007BFF;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.header-title {
+  margin-bottom: 10px;
+}
+
+/* Navigation styles */
+.nav {
+  margin-top: 10px;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.nav-item {
+  margin: 0 15px;
+}
+
+.nav-item a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-item a:hover {
+  text-decoration: underline;
+}
+
+/* Main section styles */
+.main {
+  padding: 20px;
+}
+
+.book-section {
+  background: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  margin-bottom: 15px;
+}
+
+/* Book list styles */
+.book-list {
+  padding: 0;
+}
+
+.book-item {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.book-title {
+  margin: 5px 0;
+}
+
+.book-author {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Footer styles */
+.footer {
+  text-align: center;
+  padding: 10px 0;
+  background: #333;
+  color: #fff;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
