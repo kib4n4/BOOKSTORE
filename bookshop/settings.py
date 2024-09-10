@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "allauth",  # Django Allauth
     "allauth.account",  # Allauth account management
     "allauth.socialaccount",  # If you plan to use social login
-    # Optional: for HTTPS support during development
 ]
 
 MIDDLEWARE = [
@@ -59,10 +58,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "bookshop.urls"
 
+# TEMPLATES configuration
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],  # Ensure this points to your templates directory
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -127,7 +127,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 STATIC_URL = "static/"
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'staticfiles'
+    BASE_DIR / 'staticfiles',  # This should point to where your custom static files are located
 ]
 
 
