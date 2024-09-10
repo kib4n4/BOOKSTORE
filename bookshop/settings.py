@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-vab&hpie&#=nctk)88-0@$^_1%_yu3zy%mtekrtzt^im^&y-ls"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "allauth",  # Django Allauth
     "allauth.account",  # Allauth account management
     "allauth.socialaccount",  # If you plan to use social login
-     # Optional: for HTTPS support during development
+    # Optional: for HTTPS support during development
 ]
 
 MIDDLEWARE = [
@@ -123,13 +123,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_ROOT=BASE_DIR/'static'
+STATIC_ROOT = BASE_DIR / 'static'
 STATIC_URL = "static/"
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'staticfiles']
+    BASE_DIR / 'staticfiles'
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Sites Framework Configuration
+# Ensure this is present to avoid 'Site matching query does not exist' error
+SITE_ID = 1
