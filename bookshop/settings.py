@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "shop",
+    "django.contrib.sites",  # Required for allauth
+    "allauth",  # Django Allauth
+    "allauth.account",  # Allauth account management
+    "allauth.socialaccount",  # If you plan to use social login
+     # Optional: for HTTPS support during development
 ]
 
 MIDDLEWARE = [
@@ -49,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "allauth.account.middleware.AccountMiddleware",  
 ]
 
 ROOT_URLCONF = "bookshop.urls"
