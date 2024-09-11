@@ -3,10 +3,9 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Book, Cart, CartItem, Review
-
-# Extend UserCreationForm to include email field
 from django import forms
 
+# Extend UserCreationForm to include email field
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -71,12 +70,40 @@ def add_to_cart(request, book_id):
         return redirect(request.META.get('HTTP_REFERER', 'home'))  # Redirect back to referring page
     return redirect('login')
 
-# View cart
+# View cart with total price calculation
 def view_cart(request):
     if request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user)
         cart_items = cart.items.all()
-        return render(request, 'cart.html', {'cart_items': cart_items})
+        total_price = sum(item.book.price * item.quantity for item in cart_items)
+        return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price})
+    return redirect('login')
+
+# Update cart item quantity
+def update_cart_item(request, item_id):
+    if request.method == "POST" and request.user.is_authenticated:
+        cart_item = get_object_or_404(CartItem, id=item_id)
+        new_quantity = int(request.POST.get('quantity', 1))
+        if new_quantity > 0 and new_quantity <= cart_item.book.stock:
+            cart_item.quantity = new_quantity
+            cart_item.save()
+        return redirect('view_cart')
+    return redirect('login')
+
+# Remove item from cart
+def remove_from_cart(request, item_id):
+    if request.method == "POST" and request.user.is_authenticated:
+        cart_item = get_object_or_404(CartItem, id=item_id)
+        cart_item.delete()
+        return redirect('view_cart')
+    return redirect('login')
+
+# Clear the entire cart
+def clear_cart(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+        cart.items.all().delete()
+        return redirect('view_cart')
     return redirect('login')
 
 # Add Review with error handling for rating
