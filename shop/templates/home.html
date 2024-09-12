@@ -29,9 +29,10 @@
 <main>
     <section class="book-section">
         <h2>Available Books</h2>
-        <ul>
+        <div class="book-grid"> <!-- Change from <ul> to <div> for grid layout -->
             {% for x in mybooks %}
-            <li class="book-item">
+            <div class="book-item"> <!-- Each book is now in a <div> instead of <li> -->
+                <img src="{{ x.image_url }}" alt="{{ x.title }}" class="book-image"> <!-- Optional book image -->
                 <h3>{{ x.title }}</h3>
                 <h4>{{ x.author }}</h4>
                 <p>Price: ${{ x.price }}</p>
@@ -42,13 +43,14 @@
                 {% else %}
                     <button class="button disabled" disabled>Out of Stock</button>
                 {% endif %}
-            </li>
+            </div>
             {% empty %}
-            <li>No books available at the moment.</li>
+            <p>No books available at the moment.</p>
             {% endfor %}
-        </ul>
+        </div>
     </section>
 </main>
+
 
 <footer>
     <p>&copy; {{ current_year }} My Bookstore. All rights reserved.</p>

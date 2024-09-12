@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Book, Cart, CartItem, Review
+from .models import Book, Cart, CartItem, Review, Order, OrderItem
 from django import forms
+from django.contrib.auth.decorators import login_required
 
 # Extend UserCreationForm to include email field
 class CustomUserCreationForm(UserCreationForm):
@@ -118,3 +119,49 @@ def add_review(request, book_id):
         Review.objects.create(book=book, user=request.user, rating=rating, comment=comment)
         return redirect(request.META.get('HTTP_REFERER', 'home'))  # Redirect back to referring page
     return redirect('login')
+
+# Checkout view
+@login_required
+def checkout(request):
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.items.all()
+    total_price = sum(item.book.price * item.quantity for item in cart_items)
+
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        postal_code = request.POST.get('postal_code')
+
+        # Create an order
+        order = Order.objects.create(
+            user=request.user,
+            full_name=full_name,
+            address=address,
+            city=city,
+            postal_code=postal_code,
+            total_amount=total_price  # Changed to total_amount to match the Order model
+        )
+
+        # Move cart items to the order
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                book=item.book,
+                quantity=item.quantity,
+                price=item.book.price
+            )
+            # Reduce the stock of the book
+            item.book.stock -= item.quantity
+            item.book.save()
+
+        # Clear the cart
+        cart.items.all().delete()
+
+        return redirect('order_success')
+
+    return render(request, 'checkout.html', {'cart_items': cart_items, 'total_price': total_price})
+
+# Order success page
+def order_success(request):
+    return render(request, 'order_success.html')
