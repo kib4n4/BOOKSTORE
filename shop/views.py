@@ -45,18 +45,22 @@ def signup(request):
 # Login view with email authentication
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST['username']  # Use 'username' as the email input
-        password = request.POST['password']
-        try:
-            user = User.objects.get(email=email)  # Get user by email
-            user = authenticate(request, username=user.username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-        except User.DoesNotExist:
-            pass  # Optionally add error handling for non-existing email
+        email = request.POST.get('email')  # Use 'email' as the input name
+        password = request.POST.get('password')
+        if email and password:
+            try:
+                user = User.objects.get(email=email)
+                user = authenticate(request, username=user.username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('home')
+                else:
+                    # Optionally handle authentication failure
+                    return render(request, 'login.html', {'error': 'Invalid credentials'})
+            except User.DoesNotExist:
+                # Optionally handle user not found
+                return render(request, 'login.html', {'error': 'User does not exist'})
     return render(request, 'login.html')
-
 # Logout view
 def logout_view(request):
     logout(request)
