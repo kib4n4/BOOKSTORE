@@ -22,6 +22,13 @@
             <li><a href="/contact/">Contact</a></li>
             <li><a href="/books/">Books</a></li>
             <li><a href="/cart/">Cart ({{ cart_count }})</a></li>
+            <!-- Conditional buttons based on user authentication status -->
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}" class="button">Logout</a></li> 
+            {% else %}
+                <li><a href="/login/" class="button">Login</a></li>
+                <li><a href="/signup/" class="button">Signup</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>
@@ -50,7 +57,6 @@
         </div>
     </section>
 </main>
-
 
 <footer>
     <p>&copy; {{ current_year }} My Bookstore. All rights reserved.</p>

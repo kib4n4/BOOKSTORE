@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Book, Cart, CartItem, Review, Order, OrderItem
@@ -56,6 +56,11 @@ def login_view(request):
         except User.DoesNotExist:
             pass  # Optionally add error handling for non-existing email
     return render(request, 'login.html')
+
+# Logout view
+def logout_view(request):
+    logout(request)
+    return redirect('home')
 
 # Add to cart view with redirection fix
 def add_to_cart(request, book_id):

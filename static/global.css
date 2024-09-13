@@ -11,6 +11,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
   color: #333;
+  line-height: 1.6; /* Improve readability */
 }
 
 /* Header */
@@ -30,12 +31,18 @@ nav ul {
   display: flex;
   justify-content: center;
   gap: 20px;
+  flex-wrap: wrap; /* Ensures nav items wrap on smaller screens */
 }
 
 nav ul li a {
   color: #fff;
   padding: 10px;
   font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #A0522D; /* Slight hover effect */
 }
 
 /* Main content */
@@ -52,7 +59,7 @@ nav ul li a {
 }
 
 /* Book item grid */
-ul {
+.book-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid with flexible columns */
   gap: 20px;
@@ -65,11 +72,19 @@ ul {
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .book-item:hover {
   transform: scale(1.02); /* Slight hover effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced hover shadow */
+}
+
+.book-item img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 5px;
 }
 
 .book-item h3 {
@@ -97,11 +112,12 @@ ul {
   cursor: pointer;
   margin-top: 10px;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button:hover {
   background-color: #A0522D;
+  transform: translateY(-2px); /* Slight hover lift */
 }
 
 .button.disabled {
@@ -115,7 +131,35 @@ footer {
   color: #fff;
   padding: 20px;
   text-align: center;
-  position: relative;
+  position: fixed;
   width: 100%;
   bottom: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  nav ul {
+    gap: 10px;
+  }
+
+  .book-item h3 {
+    font-size: 1.3rem;
+  }
+
+  .book-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .button {
+    padding: 8px 12px;
+    font-size: 1rem;
+  }
+
+  footer {
+    font-size: 0.9rem;
+  }
 }
