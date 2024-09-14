@@ -16,6 +16,11 @@ class CustomUserCreationForm(UserCreationForm):
 #Defining and creating the About Us page
 def about(request):
     return render(request, 'about.html')
+
+#Defining and creating the contact page
+def contact(request):
+    return render(request, 'contact.html')
+
 # Home page view displaying available books and cart count
 def home(request):
     mybooks = Book.objects.all()
