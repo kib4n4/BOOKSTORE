@@ -13,7 +13,9 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
-
+#Defining and creating the About Us page
+def about(request):
+    return render(request, 'about.html')
 # Home page view displaying available books and cart count
 def home(request):
     mybooks = Book.objects.all()
