@@ -1,123 +1,68 @@
-/* Reset default styles */
-body, h1, h2, h3, h4, p, ul, li, a {
+/* Reset some browser default styling */
+* {
   margin: 0;
   padding: 0;
-  list-style: none;
-  text-decoration: none;
   box-sizing: border-box;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
+  line-height: 1.6;
+  background-color: #f4f4f4;
   color: #333;
-  line-height: 1.6; /* Improve readability */
 }
 
-/* Header */
-.header {
-  background-color: #8B4513; /* Brown theme */
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
-
-.header-title {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-nav ul {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap; /* Ensures nav items wrap on smaller screens */
-}
-
-nav ul li a {
-  color: #fff;
-  padding: 10px;
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
-}
-
-nav ul li a:hover {
-  color: #A0522D; /* Slight hover effect */
-}
-
-/* Main content */
-.book-section {
-  padding: 20px;
+.container {
+  width: 90%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.book-section h2 {
-  color: #8B4513;
-  margin-bottom: 20px;
+/* Header styling */
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+}
+
+.header-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.nav {
   text-align: center;
 }
 
-/* Book item grid */
-.book-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid with flexible columns */
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
   gap: 20px;
 }
 
-.book-item {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.book-item:hover {
-  transform: scale(1.02); /* Slight hover effect */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced hover shadow */
-}
-
-.book-item img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 15px;
-  border-radius: 5px;
-}
-
-.book-item h3 {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.book-item h4 {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-.book-item p {
-  font-size: 1rem;
-  margin: 10px 0;
+.nav-link:hover {
+  text-decoration: underline;
 }
 
 .button {
-  background-color: #8B4513;
+  background-color: #ff6347;
   color: #fff;
-  padding: 10px 15px;
+  padding: 8px 15px;
   border: none;
-  cursor: pointer;
-  margin-top: 10px;
   border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .button:hover {
-  background-color: #A0522D;
-  transform: translateY(-2px); /* Slight hover lift */
+  background-color: #ff4500;
 }
 
 .button.disabled {
@@ -125,41 +70,56 @@ nav ul li a:hover {
   cursor: not-allowed;
 }
 
-/* Footer */
-footer {
-  background-color: #8B4513;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
+/* Main content */
+.main-content {
+  padding: 40px 0;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .header-title {
-    font-size: 1.5rem;
-  }
+.section-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
 
-  nav ul {
-    gap: 10px;
-  }
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
 
-  .book-item h3 {
-    font-size: 1.3rem;
-  }
+.book-item {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
-  .book-item h4 {
-    font-size: 1.1rem;
-  }
+.book-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
 
-  .button {
-    padding: 8px 12px;
-    font-size: 1rem;
-  }
+.book-title {
+  font-size: 20px;
+  margin: 10px 0;
+}
 
-  footer {
-    font-size: 0.9rem;
-  }
+.book-author {
+  font-size: 16px;
+  color: #777;
+}
+
+.book-price,
+.book-stock {
+  margin: 5px 0;
+}
+
+/* Footer */
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
 }

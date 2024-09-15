@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-vab&hpie&#=nctk)88-0@$^_1%_yu3zy%mtekrtzt^im^&y-ls"
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', "django-insecure-vab&hpie&#=nctk)88-0@$^_1%_yu3zy%mtekrtzt^im^&y-ls")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']  # Add your production domains here
 
 
 # Application definition
@@ -52,7 +53,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Whitenoise for serving static files in production
     "allauth.account.middleware.AccountMiddleware",  
 ]
 
@@ -123,12 +124,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'static'
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
+# Collects static files for production (e.g. with Whitenoise)
+STATIC_ROOT = BASE_DIR / "static"
+
+# For serving custom static files in development
 STATICFILES_DIRS = [
-    BASE_DIR / 'staticfiles',  # This should point to where your custom static files are located
+    BASE_DIR / "staticfiles",  # Add your custom static assets here (CSS, JS, etc.)
 ]
+
+# Media files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"  # Where media files are uploaded
+
+# Whitenoise static file compression and caching
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Default primary key field type
@@ -140,3 +151,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Sites Framework Configuration
 # Ensure this is present to avoid 'Site matching query does not exist' error
 SITE_ID = 1
+
+
+# Email backend configuration (example using Gmail)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "your-email@gmail.com")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "your-password")
+
+# Messages framework for showing feedback
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.SUCCESS: "alert-success",
+    messages.ERROR: "alert-danger",
+}

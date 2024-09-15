@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Book, Cart, CartItem, Review, Order, OrderItem
 from django import forms
+from django.contrib import messages
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 
 # Extend UserCreationForm to include email field
@@ -16,7 +18,36 @@ class CustomUserCreationForm(UserCreationForm):
 #Defining and creating the About Us page
 def about(request):
     return render(request, 'about.html')
-
+#defining and creating  the books page
+def books(request):
+    mybooks = Book.objects.all()
+    context = {
+        'mybooks': mybooks
+    }
+    return render(request, 'books.html', context)
+#defining and creating the contact_submit  page
+def contact_submit(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        # Send an email here using the provided data
+        # (Replace this with your actual email sending code)
+                # Here you can add logic to send an email or save the message to a database
+        # Example: Sending an email (requires proper email setup in Django settings)
+        send_mail(
+            f"Message from {name}",
+            message,
+            email,
+            ['support@bookshop.com'],  # Your support email or admin email
+            fail_silently=False,
+        )
+        
+        messages.success(request, 'Your message has been sent successfully.')
+        return redirect('contact')
+    else:
+        return render(request, 'shop/contact.html')
+        
 #Defining and creating the contact page
 def contact(request):
     return render(request, 'contact.html')

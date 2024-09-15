@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import home, signup, login_view, logout_view, add_to_cart, view_cart, update_cart_item, remove_from_cart, clear_cart, add_review, checkout, order_success,about,contact
+from .views import contact_submit, home, books, signup, login_view, logout_view, add_to_cart, view_cart, update_cart_item, remove_from_cart, clear_cart, add_review, checkout, order_success,about,contact
 
 urlpatterns = [
+    path('books/', books, name='books'),
+    path('contact/submit',contact_submit, name='contact_submit'),
     path('', home, name='home'),
     path('about/', about, name='about'),  # New about URL
     path('contact/', contact, name='contact'),  # New contact URL

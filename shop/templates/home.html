@@ -4,62 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bookstore</title>
+    <title> Adventist & more books.com</title>
 
-    <!-- Link to the favicon -->
+    <!-- Link to favicon -->
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
 
+    <!-- Link to CSS file -->
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
 <body>
 
 <header class="header">
-    <h1 class="header-title">Welcome to Our Bookstore</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about/">About Us</a></li>
-            <li><a href="/contact/">Contact</a></li>
-            <li><a href="/books/">Books</a></li>
-            <li><a href="/cart/">Cart ({{ cart_count }})</a></li>
-            <!-- Conditional buttons based on user authentication status -->
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}" class="button">Logout</a></li> 
-            {% else %}
-                <li><a href="/login/" class="button">Login</a></li>
-                <li><a href="/signup/" class="button">Signup</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+    <div class="container">
+        <h1 class="header-title">Welcome to Our Bookstore</h1>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/about/" class="nav-link">About Us</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+                <li><a href="/books/" class="nav-link">Books</a></li>
+                <li><a href="/cart/" class="nav-link">Cart ({{ cart_count }})</a></li>
+            </ul>
+                {% if user.is_authenticated %}
+                    <button><a href="{% url 'logout' %}" class="button nav-link">Logout</a></button>
+                {% else %}
+                    <button><a href="/login/" class="button nav-link">Login</a></button>
+                    <button><a href="/signup/" class="button nav-link">Signup</a></button>
+                {% endif %}
+          
+        </nav>
+    </div>
 </header>
 
-<main>
-    <section class="book-section">
-        <h2>Available Books</h2>
-        <div class="book-grid"> <!-- Change from <ul> to <div> for grid layout -->
-            {% for x in mybooks %}
-            <div class="book-item"> <!-- Each book is now in a <div> instead of <li> -->
-                <img src="{{ x.image_url }}" alt="{{ x.title }}" class="book-image"> <!-- Optional book image -->
-                <h3>{{ x.title }}</h3>
-                <h4>{{ x.author }}</h4>
-                <p>Price: ${{ x.price }}</p>
-                <p>In Stock: {{ x.stock }}</p>
+<main class="main-content">
+    <div class="container">
+        <section class="book-section">
+            <h2 class="section-title">Available Books</h2>
+            <div class="book-grid">
+                {% for x in mybooks %}
+                <div class="book-item">
+                    <img src="{{ x.image_url }}" alt="{{ x.title }}" class="book-image">
+                    <h3 class="book-title">{{ x.title }}</h3>
+                    <h4 class="book-author">{{ x.author }}</h4>
+                    <p class="book-price">Price: Ksh{{ x.price }}</p>
+                    <p class="book-stock">In Stock: {{ x.stock }}</p>
 
-                {% if x.stock > 0 %}
-                    <a href="{% url 'add_to_cart' x.id %}" class="button">Add to Cart</a>
-                {% else %}
-                    <button class="button disabled" disabled>Out of Stock</button>
-                {% endif %}
+                    {% if x.stock > 0 %}
+                        <a href="{% url 'add_to_cart' x.id %}" class="button">Add to Cart</a>
+                    {% else %}
+                        <button class="button disabled" disabled>Out of Stock</button>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="no-books">No books available at the moment.</p>
+                {% endfor %}
             </div>
-            {% empty %}
-            <p>No books available at the moment.</p>
-            {% endfor %}
-        </div>
-    </section>
+        </section>
+    </div>
 </main>
 
-<footer>
-    <p>&copy; {{ current_year }} My Bookstore. All rights reserved.</p>
+<footer class="footer">
+    <div class="container">
+        <p>&copy; {{ current_year }} My Bookstore. All rights reserved.</p>
+    </div>
 </footer>
 
 </body>
