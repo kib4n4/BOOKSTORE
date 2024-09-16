@@ -51,7 +51,8 @@
                     {% if x.image %}
                         <img src="{{ x.image.url }}" alt="{{ x.title }}" class="book-image">
                     {% else %}
-                        <img src="{% static 'images/default_book_cover.jpg' %}" alt="Default Cover" class="book-image">
+                        <!-- Optionally, you can leave this space empty if you don't want to display anything -->
+                        <div class="book-image-placeholder"></div>
                     {% endif %}
                     <div class="book-info">
                         <h3 class="book-title">{{ x.title }}</h3>
