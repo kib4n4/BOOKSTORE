@@ -1,15 +1,10 @@
-/* Reset some browser default styling */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Global Styles */
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
+  margin: 0;
+  padding: 0;
   background-color: #f4f4f4;
-  color: #333;
 }
 
 .container {
@@ -18,67 +13,102 @@ body {
   margin: 0 auto;
 }
 
-/* Header styling */
+/* Header */
 .header {
-  background-color: #333;
-  color: #fff;
-  padding: 20px 0;
+  background-color: #232f3e;
+  color: white;
+  padding: 10px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
-.header-title {
-  text-align: center;
-  margin-bottom: 10px;
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.search-form {
+  display: flex;
+}
+
+.search-input {
+  padding: 8px;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  width: 200px;
+}
+
+.search-btn {
+  padding: 8px;
+  background-color: #ff9900;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  color: white;
+  cursor: pointer;
 }
 
 .nav {
-  text-align: center;
+  display: flex;
 }
 
 .nav-list {
-  list-style-type: none;
+  list-style: none;
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  margin: 0;
 }
 
 .nav-link {
-  color: #fff;
+  color: white;
+  padding: 10px;
   text-decoration: none;
   font-weight: bold;
 }
 
 .nav-link:hover {
-  text-decoration: underline;
+  background-color: #37475a;
+  border-radius: 4px;
 }
 
-.button {
-  background-color: #ff6347;
-  color: #fff;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
+.user-auth {
+  display: flex;
+}
+
+.auth-link {
+  margin-left: 15px;
+  padding: 10px;
+  color: white;
   text-decoration: none;
-  font-weight: bold;
+  border: 1px solid white;
+  border-radius: 4px;
 }
 
-.button:hover {
-  background-color: #ff4500;
+.auth-link:hover {
+  background-color: #ff9900;
+  border-color: #ff9900;
+  color: white;
 }
 
-.button.disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* Main content */
+/* Main Content */
 .main-content {
-  padding: 40px 0;
+  padding-top: 80px; /* To avoid being hidden under fixed header */
+}
+
+.book-section {
+  margin-top: 30px;
 }
 
 .section-title {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .book-grid {
@@ -88,38 +118,105 @@ body {
 }
 
 .book-item {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
+.book-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 .book-image {
-  width: 100%;
+  max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.book-info {
+  margin-bottom: 15px;
 }
 
 .book-title {
-  font-size: 20px;
-  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .book-author {
   font-size: 16px;
-  color: #777;
+  color: gray;
 }
 
-.book-price,
+.book-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff9900;
+}
+
 .book-stock {
-  margin: 5px 0;
+  font-size: 14px;
+  color: green;
+}
+
+.book-actions .button {
+  padding: 10px 20px;
+  background-color: #ff9900;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #e68a00;
+}
+
+.button.disabled {
+  background-color: #ccc;
 }
 
 /* Footer */
 .footer {
-  background-color: #333;
-  color: #fff;
-  padding: 20px 0;
+  background-color: #232f3e;
+  color: white;
   text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.social-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+.social-links li {
+  display: inline;
+}
+
+.social-links img {
+  width: 20px;
+  height: 20px;
+}
+.book-stock {
+  font-size: 14px;
+  color: green;
+}
+
+.book-stock.out-of-stock {
+  color: red;
+  font-weight: bold;
 }

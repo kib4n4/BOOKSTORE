@@ -9,6 +9,7 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     ratings = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
+    image = models.ImageField(upload_to='book_images/', blank=True, null=True)  # Added image field
 
     def __str__(self):
         return self.title

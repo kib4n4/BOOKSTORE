@@ -4,19 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Adventist & more books.com</title>
+    <title>Books & More Books</title>
 
-    <!-- Link to favicon -->
+    <!-- Favicon -->
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
 
-    <!-- Link to CSS file -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
 <body>
 
 <header class="header">
-    <div class="container">
-        <h1 class="header-title">Welcome to Our Bookstore</h1>
+    <div class="container header-container">
+        <h1 class="logo">Books & More Books</h1>
+        <form action="/search/" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Search for books..." class="search-input">
+            <button type="submit" class="search-btn">Search</button>
+        </form>
         <nav class="nav">
             <ul class="nav-list">
                 <li><a href="/" class="nav-link">Home</a></li>
@@ -25,14 +29,15 @@
                 <li><a href="/books/" class="nav-link">Books</a></li>
                 <li><a href="/cart/" class="nav-link">Cart ({{ cart_count }})</a></li>
             </ul>
-                {% if user.is_authenticated %}
-                    <button><a href="{% url 'logout' %}" class="button nav-link">Logout</a></button>
-                {% else %}
-                    <button><a href="/login/" class="button nav-link">Login</a></button>
-                    <button><a href="/signup/" class="button nav-link">Signup</a></button>
-                {% endif %}
-          
         </nav>
+        <div class="user-auth">
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="auth-link">Logout</a>
+            {% else %}
+                <a href="/login/" class="auth-link">Login</a>
+                <a href="/signup/" class="auth-link">Signup</a>
+            {% endif %}
+        </div>
     </div>
 </header>
 
@@ -43,17 +48,28 @@
             <div class="book-grid">
                 {% for x in mybooks %}
                 <div class="book-item">
-                    <img src="{{ x.image_url }}" alt="{{ x.title }}" class="book-image">
-                    <h3 class="book-title">{{ x.title }}</h3>
-                    <h4 class="book-author">{{ x.author }}</h4>
-                    <p class="book-price">Price: Ksh{{ x.price }}</p>
-                    <p class="book-stock">In Stock: {{ x.stock }}</p>
-
-                    {% if x.stock > 0 %}
-                        <a href="{% url 'add_to_cart' x.id %}" class="button">Add to Cart</a>
+                    {% if x.image %}
+                        <img src="{{ x.image.url }}" alt="{{ x.title }}" class="book-image">
                     {% else %}
-                        <button class="button disabled" disabled>Out of Stock</button>
+                        <img src="{% static 'images/default_book_cover.jpg' %}" alt="Default Cover" class="book-image">
                     {% endif %}
+                    <div class="book-info">
+                        <h3 class="book-title">{{ x.title }}</h3>
+                        <h4 class="book-author">{{ x.author }}</h4>
+                        <p class="book-price">Price: Ksh{{ x.price }}</p>
+                        {% if x.stock > 0 %}
+                            <p class="book-stock">In Stock</p>
+                        {% else %}
+                            <p class="book-stock out-of-stock">Out of Stock</p>
+                        {% endif %}
+                    </div>
+                    <div class="book-actions">
+                        {% if x.stock > 0 %}
+                            <a href="{% url 'add_to_cart' x.id %}" class="button">Add to Cart</a>
+                        {% else %}
+                            <button class="button disabled" disabled>Out of Stock</button>
+                        {% endif %}
+                    </div>
                 </div>
                 {% empty %}
                 <p class="no-books">No books available at the moment.</p>
@@ -64,8 +80,13 @@
 </main>
 
 <footer class="footer">
-    <div class="container">
-        <p>&copy; {{ current_year }} My Bookstore. All rights reserved.</p>
+    <div class="container footer-container">
+        <p>&copy; {{ current_year }} Books & More Books. All rights reserved.</p>
+        <ul class="social-links">
+            <li><a href="#"><img src="{% static 'images/icon-facebook.png' %}" alt="Facebook"></a></li>
+            <li><a href="#"><img src="{% static 'images/icon-twitter.png' %}" alt="Twitter"></a></li>
+            <li><a href="#"><img src="{% static 'images/icon-instagram.png' %}" alt="Instagram"></a></li>
+        </ul>
     </div>
 </footer>
 
