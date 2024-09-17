@@ -1,222 +1,90 @@
-/* Global Styles */
+/* global.css */
+
+/* Body Styles */
 body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
+  font-family: "Arial", sans-serif;
+  background-color: #f8f9fa; /* Light background for contrast */
 }
 
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Header */
+/* Header Styles */
 .header {
-  background-color: #232f3e;
-  color: white;
-  padding: 10px 0;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-}
-
-.header-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background-color: #343a40; /* Darker background */
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 2rem;
   font-weight: bold;
-  margin: 0;
 }
 
-.search-form {
-  display: flex;
-}
-
-.search-input {
-  padding: 8px;
-  border: none;
-  border-radius: 4px 0 0 4px;
-  width: 200px;
-}
-
-.search-btn {
-  padding: 8px;
-  background-color: #ff9900;
-  border: none;
-  border-radius: 0 4px 4px 0;
-  color: white;
-  cursor: pointer;
-}
-
-.nav {
-  display: flex;
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  margin: 0;
-}
-
+/* Navigation Styles */
 .nav-link {
-  color: white;
-  padding: 10px;
-  text-decoration: none;
-  font-weight: bold;
+  color: #ffc107; /* Bright color for links */
 }
 
 .nav-link:hover {
-  background-color: #37475a;
-  border-radius: 4px;
+  color: #fff; /* Change color on hover */
 }
 
-.user-auth {
-  display: flex;
-}
-
-.auth-link {
-  margin-left: 15px;
-  padding: 10px;
-  color: white;
-  text-decoration: none;
-  border: 1px solid white;
-  border-radius: 4px;
-}
-
-.auth-link:hover {
-  background-color: #ff9900;
-  border-color: #ff9900;
-  color: white;
-}
-
-/* Main Content */
-.main-content {
-  padding-top: 80px; /* To avoid being hidden under fixed header */
-}
-
-.book-section {
-  margin-top: 30px;
-}
-
+/* Main Content Styles */
 .section-title {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #495057; /* Darker text for titles */
 }
 
-.book-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+/* Card Styles */
+.card {
+  transition: transform 0.2s; /* Smooth scaling effect */
 }
 
-.book-item {
-  background-color: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+.card:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
-.book-item:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+/* Footer Styles */
+footer {
+  background-color: #343a40;
 }
 
-.book-image {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
+footer .text-white {
+  color: #ffffff; /* Ensure footer text is white */
+}
+/* Custom navbar toggler styles */
+.navbar-toggler {
+  border: none; /* Remove border */
 }
 
-.book-info {
-  margin-bottom: 15px;
+/* Custom navbar toggler styles */
+.navbar-toggler {
+  border: none; /* Remove border */
 }
 
-.book-title {
-  font-size: 18px;
-  font-weight: bold;
+.navbar-toggler-icon {
+  background-color: #ffc107; /* Change the color of the toggler icon */
+  width: 30px; /* Adjust width */
+  height: 3px; /* Adjust height */
 }
 
-.book-author {
-  font-size: 16px;
-  color: gray;
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px; /* Adjust height */
+  background-color: #ffc107; /* Color of the bars */
+  margin: 5px 0; /* Space between bars */
 }
 
-.book-price {
-  font-size: 16px;
-  font-weight: bold;
-  color: #ff9900;
-}
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .header {
+    text-align: center; /* Center header content on small screens */
+  }
 
-.book-stock {
-  font-size: 14px;
-  color: green;
-}
+  .nav {
+    flex-direction: column; /* Stack nav items vertically */
+  }
 
-.book-actions .button {
-  padding: 10px 20px;
-  background-color: #ff9900;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #e68a00;
-}
-
-.button.disabled {
-  background-color: #ccc;
-}
-
-/* Footer */
-.footer {
-  background-color: #232f3e;
-  color: white;
-  text-align: center;
-  padding: 20px 0;
-  margin-top: 40px;
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer p {
-  margin: 0;
-}
-
-.social-links {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-}
-
-.social-links li {
-  display: inline;
-}
-
-.social-links img {
-  width: 20px;
-  height: 20px;
-}
-.book-stock {
-  font-size: 14px;
-  color: green;
-}
-
-.book-stock.out-of-stock {
-  color: red;
-  font-weight: bold;
+  .nav-link {
+    margin: 0.5rem 0; /* Space out nav links */
+  }
 }
