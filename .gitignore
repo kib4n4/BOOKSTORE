@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+__pycache__/
+*.pyo
+*.pyd
+
+# C extensions
+*.so
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+__pycache__/
+*.sqlite3
+
+# Ignore the Django secret key file
+.env
+
+# Local development settings
+settings_local.py
+
+# Migrations
+*/migrations/*
+
+# Media files
+/media/
+
+# Static files
+/staticfiles/
+/static/
+
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+
+# MySQL and Postgres database dumps
+*.sql
+
+# macOS files
+.DS_Store
+
+# JetBrains IDEs
+.idea/
+
+# VS Code settings
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Windows
+Thumbs.db

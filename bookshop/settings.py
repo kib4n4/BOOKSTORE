@@ -1,13 +1,18 @@
+from dotenv import load_dotenv
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-vab&hpie&#=nctk)88-0@$^_1%_yu3zy%mtekrtzt^im^&y-ls')
+# Load the .env file
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+
+# Quick-start development settings - unsuitable for production
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-vab&hpie&#=nctk)88-0@$^_1%_yu3zy%mtekrtzt^im^&y-ls')
+
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*']  # Add your production domains here
 
@@ -114,8 +119,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "admin@gmail.com")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "your-password")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 # Messages framework for showing feedback
 from django.contrib.messages import constants as messages
