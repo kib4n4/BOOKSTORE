@@ -24,7 +24,7 @@ __pycache__/
 .env
 
 # Local development settings
-settings_local.py
+settings.py
 
 # Migrations
 */migrations/*
