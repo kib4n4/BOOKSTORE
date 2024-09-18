@@ -18,7 +18,7 @@ ENV/
 *.pyc
 *.pyo
 __pycache__/
-*.sqlite3
+*.sqlite3  # This will ignore db.sqlite3 and any other SQLite files
 
 # Ignore the Django secret key file
 .env
@@ -45,7 +45,8 @@ htmlcov/
 .tox/
 
 # MySQL and Postgres database dumps
-db.sqlite3
+*.sql
+
 # macOS files
 .DS_Store
 
