@@ -45,8 +45,7 @@ htmlcov/
 .tox/
 
 # MySQL and Postgres database dumps
-*.sql
-
+db.sqlite3
 # macOS files
 .DS_Store
 
