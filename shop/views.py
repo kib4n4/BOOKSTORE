@@ -15,26 +15,56 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
-#Defining and creating the About Us page
+
+# Defining and creating the About Us page
 def about(request):
     return render(request, 'about.html')
-#defining and creating  the books page
+
+# Defining and creating the books page with filters
 def books(request):
+    genre = request.GET.get('genre')
+    author = request.GET.get('author')
+
     mybooks = Book.objects.all()
+
+    if genre:
+        mybooks = mybooks.filter(genre=genre)
+    if author:
+        mybooks = mybooks.filter(author=author)
+
+    genres = Book.objects.values_list('genre', flat=True).distinct()
+    authors = Book.objects.values_list('author', flat=True).distinct()
+
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+        cart_count = cart.items.count()
+
     context = {
-        'mybooks': mybooks
+        'mybooks': mybooks,
+        'genres': genres,
+        'authors': authors,
+        'cart_count': cart_count
     }
     return render(request, 'books.html', context)
-#defining and creating the contact_submit  page
+
+# Book detail view
+def book_detail(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    reviews = Review.objects.filter(book=book)
+    context = {
+        'book': book,
+        'reviews': reviews,
+    }
+    return render(request, 'book_detail.html', context)
+
+# Defining and creating the contact_submit page
 def contact_submit(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
         # Send an email here using the provided data
-        # (Replace this with your actual email sending code)
-                # Here you can add logic to send an email or save the message to a database
-        # Example: Sending an email (requires proper email setup in Django settings)
         send_mail(
             f"Message from {name}",
             message,
@@ -42,13 +72,13 @@ def contact_submit(request):
             ['support@bookshop.com'],  # Your support email or admin email
             fail_silently=False,
         )
-        
+
         messages.success(request, 'Your message has been sent successfully.')
         return redirect('contact')
     else:
-        return render(request, 'shop/contact.html')
-        
-#Defining and creating the contact page
+        return render(request, 'contact.html')
+
+# Defining and creating the contact page
 def contact(request):
     return render(request, 'contact.html')
 
@@ -59,7 +89,7 @@ def home(request):
     if request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user)
         cart_count = cart.items.count()
-    
+
     context = {
         'mybooks': mybooks,
         'cart_count': cart_count
@@ -99,6 +129,7 @@ def login_view(request):
                 # Optionally handle user not found
                 return render(request, 'login.html', {'error': 'User does not exist'})
     return render(request, 'login.html')
+
 # Logout view
 def logout_view(request):
     logout(request)

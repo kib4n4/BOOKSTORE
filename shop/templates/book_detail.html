@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Include your head content here -->
+</head>
+<body>
+  <!-- Include your header here -->
+
+  <main class="main-content py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          {% if book.image %}
+          <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-fluid" />
+          {% else %}
+          <div class="bg-light" style="height: 200px"></div>
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <h1>{{ book.title }}</h1>
+          <h4>By {{ book.author }}</h4>
+          <p>Genre: {{ book.genre }}</p>
+          <p>Price: Ksh{{ book.price }}</p>
+          {% if book.stock > 0 %}
+          <p class="text-success">In Stock</p>
+          <a href="{% url 'add_to_cart' book.id %}" class="btn btn-primary">Add to Cart</a>
+          {% else %}
+          <p class="text-danger">Out of Stock</p>
+          <button class="btn btn-secondary" disabled>Out of Stock</button>
+          {% endif %}
+        </div>
+      </div>
+      <hr>
+      <h3>Reviews</h3>
+      {% for review in reviews %}
+      <div class="review">
+        <h5>{{ review.user.username }}</h5>
+        <p>Rating: {{ review.rating }}/5</p>
+        <p>{{ review.comment }}</p>
+      </div>
+      {% empty %}
+      <p>No reviews yet.</p>
+      {% endfor %}
+      {% if user.is_authenticated %}
+      <hr>
+      <h4>Add a Review</h4>
+      <form method="POST" action="{% url 'add_review' book.id %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="rating" class="form-label">Rating</label>
+          <select name="rating" id="rating" class="form-select">
+            {% for i in "12345" %}
+            <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="comment" class="form-label">Comment</label>
+          <textarea name="comment" id="comment" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Submit Review</button>
+      </form>
+      {% else %}
+      <p><a href="{% url 'login' %}">Login</a> to add a review.</p>
+      {% endif %}
+    </div>
+  </main>
+
+  <!-- Include your footer here -->
+</body>
+</html>
