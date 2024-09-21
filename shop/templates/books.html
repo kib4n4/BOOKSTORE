@@ -1,82 +1,113 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- ... head content remains the same ... -->
-  </head>
-  <body>
-    <!-- ... header remains the same ... -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books & More Books</title>
 
-    <main class="main-content py-5">
-      <div class="container">
-        <section class="filter-section mb-4">
-          <h2 class="section-title">Filter by</h2>
-          <form method="GET" action="{% url 'books' %}" class="row g-3">
-            <div class="col-md-6">
-              <select name="genre" class="form-select">
-                <option value="">Genre</option>
-                {% for genre_option in genres %}
-                <option value="{{ genre_option }}" {% if request.GET.genre == genre_option %}selected{% endif %}>{{ genre_option }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="col-md-6">
-              <select name="author" class="form-select">
-                <option value="">Author</option>
-                {% for author_option in authors %}
-                <option value="{{ author_option }}" {% if request.GET.author == author_option %}selected{% endif %}>{{ author_option }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary">Apply Filters</button>
-            </div>
-          </form>
-        </section>
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
 
-        <section class="book-section">
-          <h2 class="section-title mb-4">Available Books</h2>
-          <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for x in mybooks %}
-            <div class="col">
-              <div class="card h-100">
-                {% if x.image %}
-                <img
-                  src="{{ x.image.url }}"
-                  alt="{{ x.title }}"
-                  class="card-img-top img-fluid"
-                />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'books.css' %}" />
+
+    <!-- Bootstrap Icons for Navigation and Footer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" />
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="logo">Books & More Books</h1>
+            <form action="/search/" method="GET">
+                <input type="text" name="q" placeholder="Search for books..." />
+                <button type="submit">Search</button>
+            </form>
+            <nav>
+                <ul>
+                    <li><a href="/" class="nav-link"><i class="bi bi-house-door"></i> Home</a></li>
+                    <li><a href="/about/" class="nav-link"><i class="bi bi-info-circle"></i> About Us</a></li>
+                    <li><a href="/contact/" class="nav-link"><i class="bi bi-envelope"></i> Contact</a></li>
+                    <li><a href="/books/" class="nav-link"><i class="bi bi-book"></i> Books</a></li>
+                    <li><a href="/cart/" class="nav-link"><i class="bi bi-cart"></i> Cart ({{ cart_count }})</a></li>
+                </ul>
+            </nav>
+            <div class="user-auth">
+                {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="logout-button">Logout</a>
                 {% else %}
-                <div class="card-img-top bg-light" style="height: 200px"></div>
+                <a href="/login/">Login</a>
+                <a href="/signup/">Signup</a>
                 {% endif %}
-                <div class="card-body">
-                  <h5 class="card-title">{{ x.title }}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">{{ x.author }}</h6>
-                  <p class="card-text">Price: Ksh{{ x.price }}</p>
-                  {% if x.stock > 0 %}
-                  <p class="text-success">In Stock</p>
-                  {% else %}
-                  <p class="text-danger">Out of Stock</p>
-                  {% endif %}
-                </div>
-                <div class="card-footer">
-                  <a href="{% url 'book_detail' x.id %}" class="btn btn-info">View Details</a>
-                  {% if x.stock > 0 %}
-                  <a href="{% url 'add_to_cart' x.id %}" class="btn btn-primary">Add to Cart</a>
-                  {% else %}
-                  <button class="btn btn-secondary" disabled>Out of Stock</button>
-                  {% endif %}
-                </div>
-              </div>
             </div>
-            {% empty %}
-            <p class="text-center">No books available at the moment.</p>
-            {% endfor %}
-          </div>
-        </section>
-      </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="filter-section">
+                <h2>Filter by</h2>
+                <form method="GET" action="{% url 'books' %}">
+                    <select name="genre">
+                        <option value="">Genre</option>
+                        {% for genre_option in genres %}
+                        <option value="{{ genre_option }}" {% if request.GET.genre == genre_option %}selected{% endif %}>{{ genre_option }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="author">
+                        <option value="">Author</option>
+                        {% for author_option in authors %}
+                        <option value="{{ author_option }}" {% if request.GET.author == author_option %}selected{% endif %}>{{ author_option }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Apply Filters</button>
+                </form>
+            </section>
+
+            <section class="book-section">
+                <h2>Available Books</h2>
+                <div class="book-list">
+                    {% for x in mybooks %}
+                    <div class="card">
+                        {% if x.image %}
+                        <img src="{{ x.image.url }}" alt="{{ x.title }}" />
+                        {% else %}
+                        <div class="card-img-top bg-light" style="height: 150px"></div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5>{{ x.title }}</h5>
+                            <h6>{{ x.author }}</h6>
+                            <p>Price: Ksh{{ x.price }}</p>
+                            {% if x.stock > 0 %}
+                            <p class="text-success">In Stock</p>
+                            {% else %}
+                            <p class="text-danger">Out of Stock</p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'book_detail' x.id %}">View Details</a>
+                            {% if x.stock > 0 %}
+                            <a href="{% url 'add_to_cart' x.id %}">Add to Cart</a>
+                            {% else %}
+                            <button disabled>Out of Stock</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No books available at the moment.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
     </main>
 
-    <!-- ... footer remains the same ... -->
-  </body>
+    <footer>
+        <p>&copy; {{ current_year }} Books & More Books. All rights reserved.</p>
+        <div>
+            <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+        </div>
+    </footer>
+</body>
 </html>
