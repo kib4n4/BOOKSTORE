@@ -1,6 +1,6 @@
-/* contact.css */
+/* /home/issa/luther/django/bookshop/shop/static/contact.css */
 
-/* Reset some default styles */
+/* General Styles */
 body, h1, h2, p, ul, li, form, input, textarea, button {
     margin: 0;
     padding: 0;
@@ -8,12 +8,10 @@ body, h1, h2, p, ul, li, form, input, textarea, button {
     font-family: Arial, sans-serif;
 }
 
-/* Body background and container settings */
 body {
     background-color: #f5f5f5;
     color: #333;
     line-height: 1.6;
-    font-size: 16px;
 }
 
 .container {
@@ -22,28 +20,23 @@ body {
     margin: 0 auto;
 }
 
-/* Header section */
-.header {
-    background-color: #232f3e;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-    border-bottom: 5px solid #ff9900;
-}
-
-.header h1 {
+/* Header Section */
+.header .logo {
     font-size: 2.5rem;
     font-weight: 700;
 }
 
-.header p {
-    font-size: 1.1rem;
-    margin-top: 10px;
+.header nav ul {
+    gap: 15px;
 }
 
-/* Contact Info Section */
+.header .user-auth .btn {
+    margin-left: 10px;
+}
+
+/* Contact Information */
 .contact-info {
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
     margin-top: 30px;
     border-radius: 5px;
@@ -72,9 +65,9 @@ body {
     text-decoration: underline;
 }
 
-/* Contact Form Section */
+/* Contact Form */
 .contact-form {
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
     margin-top: 30px;
     border-radius: 5px;
@@ -108,12 +101,10 @@ body {
     resize: vertical;
 }
 
-/* Button Styles */
 .button {
-    display: inline-block;
     padding: 12px 20px;
     background-color: #ff9900;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 1rem;
@@ -124,9 +115,9 @@ body {
     background-color: #e88a00;
 }
 
-/* Location Map Section */
+/* Location Map */
 .location-map {
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
     margin-top: 30px;
     border-radius: 5px;
@@ -150,7 +141,7 @@ body {
 /* Footer */
 .footer {
     background-color: #232f3e;
-    color: white;
+    color: #fff;
     padding: 15px 0;
     text-align: center;
     margin-top: 30px;
@@ -158,20 +149,4 @@ body {
 
 .footer p {
     font-size: 0.875rem;
-}
-
-/* Media Queries for responsive design */
-@media (max-width: 768px) {
-    .header h1 {
-        font-size: 2rem;
-    }
-
-    .contact-info, .contact-form, .location-map {
-        margin-top: 20px;
-        padding: 15px;
-    }
-
-    .contact-form h2, .contact-info h2, .location-map h2 {
-        font-size: 1.5rem;
-    }
 }
