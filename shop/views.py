@@ -4,9 +4,24 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Book, Cart, CartItem, Review, Order, OrderItem
 from django import forms
+from django.db.models import Q
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+
+
+# View to handle search suggestions
+def search_suggestions(request):
+    query = request.GET.get('query', '')
+    if query:
+        books = Book.objects.filter(
+            Q(title__icontains=query) |
+            Q(author__icontains=query) |
+            Q(genre__icontains=query)
+        ).values('title')[:5]  # Limit to 5 suggestions
+        return JsonResponse(list(books), safe=False)
+    return JsonResponse([], safe=False)
 
 # Extend UserCreationForm to include email field
 class CustomUserCreationForm(UserCreationForm):
@@ -22,13 +37,26 @@ def about(request):
 
 # Defining and creating the books page with filters
 def books(request):
+    query = request.GET.get('query', '')
     genre = request.GET.get('genre')
     author = request.GET.get('author')
 
+    # Base queryset
     mybooks = Book.objects.all()
 
+    # If search query is provided, filter by title, author, or genre
+    if query:
+        mybooks = mybooks.filter(
+            Q(title__icontains=query) |
+            Q(author__icontains=query) |
+            Q(genre__icontains=query)
+        )
+
+    # If genre filter is applied
     if genre:
         mybooks = mybooks.filter(genre=genre)
+    
+    # If author filter is applied
     if author:
         mybooks = mybooks.filter(author=author)
 
@@ -44,8 +72,10 @@ def books(request):
         'mybooks': mybooks,
         'genres': genres,
         'authors': authors,
-        'cart_count': cart_count
+        'cart_count': cart_count,
+        'query': query  # Pass the search query back to the template
     }
+
     return render(request, 'books.html', context)
 
 # Book detail view

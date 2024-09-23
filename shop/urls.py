@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    search_suggestions, 
     contact_submit, 
     home, 
     books, 
@@ -21,6 +22,8 @@ from .views import (
 
 urlpatterns = [
     path('', home, name='home'),
+    path('search/', books, name='search'),
+    path('search-suggestions/', search_suggestions, name='search_suggestions'),  # Add this for AJAX suggestions
     path('book/<int:book_id>/', book_detail, name='book_detail'),  # Fixed the URL pattern
     path('books/', books, name='books'),
     path('about/', about, name='about'),
