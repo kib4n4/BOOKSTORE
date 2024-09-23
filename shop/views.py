@@ -4,7 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Book, Cart, CartItem, Review, Order, OrderItem
 from django import forms
-from django.db.models import Q
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Q , Sum
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -273,3 +275,25 @@ def checkout(request):
 # Order success page
 def order_success(request):
     return render(request, 'order_success.html')
+
+#implementing and creating admin dahsboard
+def admin_dashboard(request):
+    total_sales = sum(order.total_amount for order in Order.objects.all())
+    total_books = Book.objects.count()
+    total_orders = Order.objects.count()
+
+    # Example sales data for the last 7 days
+    sales_data = []
+    sales_labels = []
+    for i in range(7):
+        sales_labels.append((timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d'))
+        sales_data.append(Order.objects.filter(order_date__date=timezone.now() - timedelta(days=i)).aggregate(Sum('total_amount'))['total_amount__sum'] or 0)
+
+    context = {
+        'total_sales': total_sales,
+        'total_books': total_books,
+        'total_orders': total_orders,
+        'sales_data': sales_data,
+        'sales_labels': sales_labels,
+    }
+    return render(request, 'admin/admin_dashboard.html', context)

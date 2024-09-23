@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     search_suggestions, 
+    admin_dashboard,
     contact_submit, 
     home, 
     books, 
@@ -17,14 +18,14 @@ from .views import (
     order_success, 
     about, 
     contact,
-    book_detail  # Import book_detail here
+    book_detail
 )
 
 urlpatterns = [
     path('', home, name='home'),
     path('search/', books, name='search'),
-    path('search-suggestions/', search_suggestions, name='search_suggestions'),  # Add this for AJAX suggestions
-    path('book/<int:book_id>/', book_detail, name='book_detail'),  # Fixed the URL pattern
+    path('search-suggestions/', search_suggestions, name='search_suggestions'),
+    path('book/<int:book_id>/', book_detail, name='book_detail'),
     path('books/', books, name='books'),
     path('about/', about, name='about'),
     path('contact/', contact, name='contact'),
@@ -40,4 +41,5 @@ urlpatterns = [
     path('add-review/<int:book_id>/', add_review, name='add_review'),
     path('checkout/', checkout, name='checkout'),
     path('order-success/', order_success, name='order_success'),
+    path('admin_dashboard/', admin_dashboard, name='admin_dashboard'),  # Keep or change this line
 ]
