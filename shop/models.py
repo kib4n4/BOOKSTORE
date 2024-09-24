@@ -6,6 +6,7 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     genre = models.CharField(max_length=50)
+    description = models.TextField(max_length=90000, default="no description available")
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     ratings = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)

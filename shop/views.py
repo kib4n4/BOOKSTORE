@@ -87,6 +87,7 @@ def book_detail(request, book_id):
     context = {
         'book': book,
         'reviews': reviews,
+       
     }
     return render(request, 'book_detail.html', context)
 

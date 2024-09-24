@@ -41,14 +41,13 @@
 <main class="main-content py-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <!-- Left Column: Book Image and Details -->
+            <div class="col-md-6">
                 {% if book.image %}
                 <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-fluid book-image" />
                 {% else %}
                 <div class="bg-light no-image-placeholder"></div>
                 {% endif %}
-            </div>
-            <div class="col-md-8">
                 <h1 class="book-title">{{ book.title }}</h1>
                 <h4 class="book-author">By {{ book.author }}</h4>
                 <p>Genre: {{ book.genre }}</p>
@@ -61,9 +60,18 @@
                 <button class="btn btn-secondary" disabled>Out of Stock</button>
                 {% endif %}
             </div>
+
+            <!-- Right Column: Book Description -->
+            <div class="col-md-6">
+                <div class="book-description-container">
+                    <h3>Description</h3>
+                    <p>{{ book.description }}</p>
+                </div>
+            </div>
         </div>
         <hr>
         <h3>Reviews</h3>
+        <!-- Reviews Section -->
         <div class="reviews-section">
             {% for review in reviews %}
             <div class="review mb-4">
@@ -83,30 +91,9 @@
             <p>No reviews yet.</p>
             {% endfor %}
         </div>
-        {% if user.is_authenticated %}
-        <hr>
-        <h4>Add a Review</h4>
-        <form method="POST" action="{% url 'add_review' book.id %}">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="rating" class="form-label">Rating</label>
-                <select name="rating" id="rating" class="form-select">
-                    {% for i in "12345" %}
-                    <option value="{{ i }}">{{ i }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="comment" class="form-label">Comment</label>
-                <textarea name="comment" id="comment" class="form-control"></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">Submit Review</button>
-        </form>
-        {% else %}
-        <p><a href="{% url 'login' %}">Login</a> to add a review.</p>
-        {% endif %}
     </div>
 </main>
+
 
 <footer class="bg-dark text-white py-4">
     <div class="container d-flex justify-content-between align-items-center">
