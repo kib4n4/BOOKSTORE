@@ -78,7 +78,7 @@ def books(request):
         'query': query  # Pass the search query back to the template
     }
 
-    return render(request, 'books.html', context)
+    return render(request, 'book_detail.html', context)
 
 # Book detail view
 def book_detail(request, book_id):
