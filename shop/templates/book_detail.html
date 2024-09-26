@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ book.title }} | Book Details</title>
+    <title>{% if book %}{{ book.title }} | Book Details{% else %}Search Results{% endif %}</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,6 +40,7 @@
 <!-- Main Content -->
 <main class="main-content py-5">
     <div class="container">
+        {% if book %}
         <div class="row">
             <!-- Left Column: Book Image and Details -->
             <div class="col-md-6">
@@ -91,9 +92,56 @@
             <p>No reviews yet.</p>
             {% endfor %}
         </div>
+        {% else %}
+        <h2>Search Results</h2>
+        {% if mybooks %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            {% for x in mybooks %}
+            <div class="col">
+                <div class="card h-100 book-card">
+                    <div class="card-img-container">
+                        {% if x.image %}
+                        <img src="{{ x.image.url }}" alt="{{ x.title }}" class="card-img-top img-fluid" />
+                        {% else %}
+                        <div class="no-image bg-light d-flex justify-content-center align-items-center">
+                            <span class="text-muted">No Image</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title text-truncate">{{ x.title }}</h6>
+                        <p class="card-author text-muted text-truncate">{{ x.author }}</p>
+                        <p class="card-price">Ksh{{ x.price }}</p>
+                        {% if x.stock > 0 %}
+                        <p class="text-success small">In Stock</p>
+                        {% else %}
+                        <p class="text-danger small">Out of Stock</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer d-flex justify-content-between p-2">
+                        {% if x.stock > 0 %}
+                        <a href="{% url 'add_to_cart' x.id %}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </a>
+                        {% else %}
+                        <button class="btn btn-sm btn-secondary" disabled>
+                            <i class="bi bi-x-circle"></i> Out of Stock
+                        </button>
+                        {% endif %}
+                        <a href="{% url 'book_detail' x.id %}" class="btn btn-sm btn-outline-info">
+                            <i class="bi bi-eye"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center">No books found for your search.</p>
+        {% endif %}
+        {% endif %}
     </div>
 </main>
-
 
 <footer class="bg-dark text-white py-4">
     <div class="container d-flex justify-content-between align-items-center">

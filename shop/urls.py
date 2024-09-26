@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import (
     search_suggestions, 
     admin_dashboard,
@@ -18,14 +19,14 @@ from .views import (
     order_success, 
     about, 
     contact,
-    book_detail
+    book_detail,
 )
 
 urlpatterns = [
     path('', home, name='home'),
     path('search/', books, name='search'),
     path('search-suggestions/', search_suggestions, name='search_suggestions'),
-    path('book/<int:book_id>/', book_detail, name='book_detail'),
+    path('book/<int:book_id>/', views.book_detail, name='book_detail'),
     path('books/', books, name='books'),
     path('about/', about, name='about'),
     path('contact/', contact, name='contact'),

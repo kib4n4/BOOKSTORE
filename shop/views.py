@@ -13,6 +13,28 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
 
+def search(request):
+    query = request.GET.get('query', '')
+    
+    # Filter books by title, author, or genre
+    if query:
+        books = Book.objects.filter(
+            Q(title__icontains=query) |
+            Q(author__icontains=query) |
+            Q(genre__icontains=query)
+        )
+
+        if books.count() == 1:
+            # If exactly one result, redirect to book detail page
+            book = books.first()
+            return redirect('book_detail', book_id=book.id)
+        else:
+            # If multiple results, render the books page
+            return render(request, 'book_detail.html', {'mybooks': books, 'query': query})
+
+    # If no query or no books found, return an empty list
+    return render(request, 'book_detail.html', {'mybooks': [], 'query': query})
+
 # View to handle search suggestions
 def search_suggestions(request):
     query = request.GET.get('query', '')
