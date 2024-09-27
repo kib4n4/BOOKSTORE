@@ -4,17 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books & More Books</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <title>Books | Books & More Books</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'global.css' %}">
+    <link rel="stylesheet" href="{% static 'books.css' %}">
 </head>
 <body>
 
@@ -48,30 +45,9 @@
     </div>
 </header>
 
-<!-- Navigation Menu -->
-<nav class="navbar navbar-expand-lg" style="background-color: skyblue;">
-    <div class="container">
-        <ul class="navbar-nav d-flex justify-content-between">
-            <li class="nav-item">
-                <a href="/" class="nav-link"><i class="bi bi-house-door"></i> Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="/about/" class="nav-link"><i class="bi bi-info-circle"></i> About Us</a>
-            </li>
-            <li class="nav-item">
-                <a href="/contact/" class="nav-link"><i class="bi bi-envelope"></i> Contact</a>
-            </li>
-            <li class="nav-item">
-                <a href="/cart/" class="nav-link"><i class="bi bi-cart"></i> Cart ({{ cart_count }})</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
 <main class="main-content py-5">
     <div class="container">
         <section class="book-section">
-            <!-- Display Books or "No Books Found" -->
             {% if mybooks %}
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
                 {% for x in mybooks %}
@@ -87,8 +63,8 @@
                             {% endif %}
                         </div>
                         <div class="card-body">
-                            <h6 class="card-title text-truncate">{{ x.title }}</h6> <!-- Truncate title for consistency -->
-                            <p class="card-author text-muted text-truncate">{{ x.author }}</p> <!-- Truncate author -->
+                            <h6 class="card-title text-truncate">{{ x.title }}</h6>
+                            <p class="card-author text-muted text-truncate">{{ x.author }}</p>
                             <p class="card-price">Ksh{{ x.price }}</p>
                             {% if x.stock > 0 %}
                             <p class="text-success small">In Stock</p>
@@ -96,7 +72,7 @@
                             <p class="text-danger small">Out of Stock</p>
                             {% endif %}
                         </div>
-                        <div class="card-footer d-flex justify-content-between p-2"> <!-- Minimized padding -->
+                        <div class="card-footer d-flex justify-content-between p-2">
                             {% if x.stock > 0 %}
                             <a href="{% url 'add_to_cart' x.id %}" class="btn btn-sm btn-primary">
                                 <i class="bi bi-cart-plus"></i> Add to Cart
@@ -116,7 +92,6 @@
             </div>
             {% else %}
             <p class="text-center">No books found for your search.</p>
-
             {% endif %}
         </section>
     </div>
@@ -136,48 +111,5 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Search Suggestions JavaScript -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.querySelector('#search-input');
-        const suggestionsList = document.querySelector('#suggestions-list');
-
-        searchInput.addEventListener('input', function () {
-            const query = this.value.trim();
-            if (query.length > 2) {
-                fetch(`/search-suggestions/?query=${encodeURIComponent(query)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        suggestionsList.innerHTML = '';
-                        if (data.length > 0) {
-                            data.forEach(item => {
-                                const suggestionItem = document.createElement('li');
-                                suggestionItem.classList.add('list-group-item');
-                                suggestionItem.textContent = item.title;
-                                suggestionItem.addEventListener('click', function () {
-                                    searchInput.value = item.title;
-                                    suggestionsList.innerHTML = '';
-                                });
-                                suggestionsList.appendChild(suggestionItem);
-                            });
-                        } else {
-                            const noResults = document.createElement('li');
-                            noResults.classList.add('list-group-item', 'text-muted');
-                            noResults.textContent = 'No results found';
-                            suggestionsList.appendChild(noResults);
-                        }
-                    });
-            } else {
-                suggestionsList.innerHTML = '';
-            }
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!searchInput.contains(event.target) && !suggestionsList.contains(event.target)) {
-                suggestionsList.innerHTML = '';
-            }
-        });
-    });
-</script>
 </body>
 </html>

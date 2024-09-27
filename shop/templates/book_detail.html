@@ -30,119 +30,62 @@
             {% if user.is_authenticated %}
             <a href="{% url 'logout' %}" class="btn btn-outline-light"><i class="bi bi-box-arrow-right"></i> Logout</a>
             {% else %}
-            <a href="/login/" class="btn btn-outline-primary me-2"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-            <a href="/signup/" class="btn btn-outline-success"><i class="bi bi-person-plus"></i> Signup</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-primary me-2"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+            <a href="{% url 'signup' %}" class="btn btn-outline-success"><i class="bi bi-person-plus"></i> Signup</a>
             {% endif %}
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
+
 <main class="main-content py-5">
     <div class="container">
+        <!-- If a single book is passed, show book details -->
         {% if book %}
-        <div class="row">
-            <!-- Left Column: Book Image and Details -->
-            <div class="col-md-6">
-                {% if book.image %}
-                <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-fluid book-image" />
-                {% else %}
-                <div class="bg-light no-image-placeholder"></div>
-                {% endif %}
-                <h1 class="book-title">{{ book.title }}</h1>
-                <h4 class="book-author">By {{ book.author }}</h4>
-                <p>Genre: {{ book.genre }}</p>
-                <p>Price: Ksh{{ book.price }}</p>
-                {% if book.stock > 0 %}
-                <p class="text-success">In Stock</p>
-                <a href="{% url 'add_to_cart' book.id %}" class="btn btn-primary">Add to Cart</a>
-                {% else %}
-                <p class="text-danger">Out of Stock</p>
-                <button class="btn btn-secondary" disabled>Out of Stock</button>
-                {% endif %}
-            </div>
-
-            <!-- Right Column: Book Description -->
-            <div class="col-md-6">
-                <div class="book-description-container">
-                    <h3>Description</h3>
-                    <p>{{ book.description }}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    {% if book.image %}
+                        <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-fluid">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <h1>{{ book.title }}</h1>
+                    <p><strong>Author:</strong> {{ book.author }}</p>
+                    <p><strong>Genre:</strong> {{ book.genre }}</p>
+                    <p><strong>Price:</strong> Ksh{{ book.price }}</p>
+                    <p><strong>Stock:</strong> {{ book.stock }}</p>
                 </div>
             </div>
-        </div>
-        <hr>
-        <h3>Reviews</h3>
-        <!-- Reviews Section -->
-        <div class="reviews-section">
-            {% for review in reviews %}
-            <div class="review mb-4">
-                <h5>{{ review.user.username }}</h5>
-                <div class="review-rating">
-                    {% for i in "12345" %}
-                        {% if forloop.counter <= review.rating|add:0 %}
-                            <i class="bi bi-star-fill text-warning"></i>
-                        {% else %}
-                            <i class="bi bi-star text-warning"></i>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <p>{{ review.comment }}</p>
-            </div>
-            {% empty %}
-            <p>No reviews yet.</p>
-            {% endfor %}
-        </div>
-        {% else %}
-        <h2>Search Results</h2>
-        {% if mybooks %}
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
-            {% for x in mybooks %}
-            <div class="col">
-                <div class="card h-100 book-card">
-                    <div class="card-img-container">
-                        {% if x.image %}
-                        <img src="{{ x.image.url }}" alt="{{ x.title }}" class="card-img-top img-fluid" />
-                        {% else %}
-                        <div class="no-image bg-light d-flex justify-content-center align-items-center">
-                            <span class="text-muted">No Image</span>
+        <!-- If multiple books are passed, show search results -->
+        {% elif mybooks %}
+            <h2>Search Results</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for book in mybooks %}
+                    <div class="col">
+                        <div class="card">
+                            {% if book.image %}
+                                <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
+                            {% else %}
+                                <p>No image available</p>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text">{{ book.author }}</p>
+                                <p class="card-text">Price: Ksh{{ book.price }}</p>
+                                <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">View Details</a>
+                            </div>
                         </div>
-                        {% endif %}
                     </div>
-                    <div class="card-body">
-                        <h6 class="card-title text-truncate">{{ x.title }}</h6>
-                        <p class="card-author text-muted text-truncate">{{ x.author }}</p>
-                        <p class="card-price">Ksh{{ x.price }}</p>
-                        {% if x.stock > 0 %}
-                        <p class="text-success small">In Stock</p>
-                        {% else %}
-                        <p class="text-danger small">Out of Stock</p>
-                        {% endif %}
-                    </div>
-                    <div class="card-footer d-flex justify-content-between p-2">
-                        {% if x.stock > 0 %}
-                        <a href="{% url 'add_to_cart' x.id %}" class="btn btn-sm btn-primary">
-                            <i class="bi bi-cart-plus"></i> Add to Cart
-                        </a>
-                        {% else %}
-                        <button class="btn btn-sm btn-secondary" disabled>
-                            <i class="bi bi-x-circle"></i> Out of Stock
-                        </button>
-                        {% endif %}
-                        <a href="{% url 'book_detail' x.id %}" class="btn btn-sm btn-outline-info">
-                            <i class="bi bi-eye"></i> View Details
-                        </a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
+        <!-- If no books are found -->
         {% else %}
-        <p class="text-center">No books found for your search.</p>
-        {% endif %}
+            <p>No books found matching your search query.</p>
         {% endif %}
     </div>
 </main>
-
 <footer class="bg-dark text-white py-4">
     <div class="container d-flex justify-content-between align-items-center">
         <p class="mb-0">&copy; {{ current_year }} Books & More Books. All rights reserved.</p>

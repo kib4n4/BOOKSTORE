@@ -6,13 +6,13 @@ from .models import Book, Cart, CartItem, Review, Order, OrderItem
 from django import forms
 from django.utils import timezone
 from datetime import timedelta
-from django.db.models import Q , Sum
+from django.db.models import Q, Sum
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
-
+# Search view
 def search(request):
     query = request.GET.get('query', '')
     
@@ -28,12 +28,12 @@ def search(request):
             # If exactly one result, redirect to book detail page
             book = books.first()
             return redirect('book_detail', book_id=book.id)
-        else:
-            # If multiple results, render the books page
-            return render(request, 'book_detail.html', {'mybooks': books, 'query': query})
+        elif books.exists():
+            # If multiple results, render the search results page
+            return render(request, 'search_results.html', {'mybooks': books, 'query': query})
 
     # If no query or no books found, return an empty list
-    return render(request, 'book_detail.html', {'mybooks': [], 'query': query})
+    return render(request, 'search_results.html', {'mybooks': [], 'query': query})
 
 # View to handle search suggestions
 def search_suggestions(request):
@@ -55,11 +55,11 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
-# Defining and creating the About Us page
+# About Us page
 def about(request):
     return render(request, 'about.html')
 
-# Defining and creating the books page with filters
+# Books page with filters
 def books(request):
     query = request.GET.get('query', '')
     genre = request.GET.get('genre')
@@ -97,10 +97,10 @@ def books(request):
         'genres': genres,
         'authors': authors,
         'cart_count': cart_count,
-        'query': query  # Pass the search query back to the template
+        'query': query
     }
 
-    return render(request, 'book_detail.html', context)
+    return render(request, 'books.html', context)
 
 # Book detail view
 def book_detail(request, book_id):
@@ -109,35 +109,34 @@ def book_detail(request, book_id):
     context = {
         'book': book,
         'reviews': reviews,
-       
     }
     return render(request, 'book_detail.html', context)
 
-# Defining and creating the contact_submit page
+# Contact form submission
 def contact_submit(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
-        # Send an email here using the provided data
+        
+        # Send email
         send_mail(
             f"Message from {name}",
             message,
             email,
-            ['support@bookshop.com'],  # Your support email or admin email
+            ['support@bookshop.com'],
             fail_silently=False,
         )
-
         messages.success(request, 'Your message has been sent successfully.')
         return redirect('contact')
     else:
         return render(request, 'contact.html')
 
-# Defining and creating the contact page
+# Contact page
 def contact(request):
     return render(request, 'contact.html')
 
-# Home page view displaying available books and cart count
+# Home page view displaying books and cart count
 def home(request):
     mybooks = Book.objects.all()
     cart_count = 0
@@ -151,15 +150,15 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
-# Signup view with email save fix
+# Signup view with email inclusion
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)  # Save the user without committing to add the email
-            user.email = form.cleaned_data.get('email')  # Assign email
-            user.save()  # Now save with the email
-            login(request, user)  # Log in the new user
+            user = form.save(commit=False)
+            user.email = form.cleaned_data.get('email')
+            user.save()
+            login(request, user)
             return redirect('home')
     else:
         form = CustomUserCreationForm()
@@ -168,7 +167,7 @@ def signup(request):
 # Login view with email authentication
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST.get('email')  # Use 'email' as the input name
+        email = request.POST.get('email')
         password = request.POST.get('password')
         if email and password:
             try:
@@ -178,10 +177,8 @@ def login_view(request):
                     login(request, user)
                     return redirect('home')
                 else:
-                    # Optionally handle authentication failure
                     return render(request, 'login.html', {'error': 'Invalid credentials'})
             except User.DoesNotExist:
-                # Optionally handle user not found
                 return render(request, 'login.html', {'error': 'User does not exist'})
     return render(request, 'login.html')
 
@@ -190,21 +187,21 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-# Add to cart view with redirection fix
+# Add to cart view
 def add_to_cart(request, book_id):
     if request.user.is_authenticated:
         book = get_object_or_404(Book, id=book_id)
         cart, _ = Cart.objects.get_or_create(user=request.user)
         cart_item, created = CartItem.objects.get_or_create(cart=cart, book=book)
         if created:
-            cart_item.quantity = 1  # Initialize quantity if creating a new item
+            cart_item.quantity = 1
         else:
-            cart_item.quantity += 1  # Increment quantity if item already exists
+            cart_item.quantity += 1
         cart_item.save()
-        return redirect(request.META.get('HTTP_REFERER', 'home'))  # Redirect back to referring page
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
     return redirect('login')
 
-# View cart with total price calculation
+# View cart with total price
 def view_cart(request):
     if request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user)
@@ -232,7 +229,7 @@ def remove_from_cart(request, item_id):
         return redirect('view_cart')
     return redirect('login')
 
-# Clear the entire cart
+# Clear entire cart
 def clear_cart(request):
     if request.method == "POST" and request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user)
@@ -240,17 +237,17 @@ def clear_cart(request):
         return redirect('view_cart')
     return redirect('login')
 
-# Add Review with error handling for rating
+# Add review with error handling
 def add_review(request, book_id):
     if request.method == "POST" and request.user.is_authenticated:
         book = get_object_or_404(Book, id=book_id)
         try:
-            rating = int(request.POST.get('rating', 0))  # Attempt to safely convert rating to int
+            rating = int(request.POST.get('rating', 0))
         except ValueError:
-            rating = 0  # If invalid rating, default to 0 or handle appropriately
-        comment = request.POST.get('comment', '')  # Default to empty string if no comment provided
+            rating = 0
+        comment = request.POST.get('comment', '')
         Review.objects.create(book=book, user=request.user, rating=rating, comment=comment)
-        return redirect(request.META.get('HTTP_REFERER', 'home'))  # Redirect back to referring page
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
     return redirect('login')
 
 # Checkout view
@@ -273,7 +270,7 @@ def checkout(request):
             address=address,
             city=city,
             postal_code=postal_code,
-            total_amount=total_price  # Changed to total_amount to match the Order model
+            total_amount=total_price
         )
 
         # Move cart items to the order
@@ -284,7 +281,7 @@ def checkout(request):
                 quantity=item.quantity,
                 price=item.book.price
             )
-            # Reduce the stock of the book
+            # Reduce book stock
             item.book.stock -= item.quantity
             item.book.save()
 
@@ -299,13 +296,12 @@ def checkout(request):
 def order_success(request):
     return render(request, 'order_success.html')
 
-#implementing and creating admin dahsboard
+# Admin dashboard
 def admin_dashboard(request):
     total_sales = sum(order.total_amount for order in Order.objects.all())
     total_books = Book.objects.count()
     total_orders = Order.objects.count()
 
-    # Example sales data for the last 7 days
     sales_data = []
     sales_labels = []
     for i in range(7):
