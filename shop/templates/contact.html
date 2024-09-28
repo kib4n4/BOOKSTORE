@@ -23,14 +23,6 @@
 <header class="header bg-dark text-white py-3">
     <div class="container d-flex justify-content-between align-items-center">
         <h1 class="logo">Books & More Books</h1>
-        <nav class="nav">
-            <ul class="nav d-flex list-unstyled">
-                <li><a href="/" class="nav-link text-white"><i class="bi bi-house-door"></i> Home</a></li>
-                <li><a href="/about/" class="nav-link text-white"><i class="bi bi-info-circle"></i> About Us</a></li>
-                <li><a href="/contact/" class="nav-link text-white"><i class="bi bi-envelope"></i> Contact</a></li>
-            
-            </ul>
-        </nav>
         <div class="user-auth d-flex">
             {% if user.is_authenticated %}
             <a href="{% url 'logout' %}" class="btn btn-outline-light"><i class="bi bi-box-arrow-right"></i> Logout</a>
@@ -41,6 +33,20 @@
         </div>
     </div>
 </header>
+<!-- Navigation Menu -->
+<nav class="navbar navbar-expand-lg" style="background-color: skyblue;">
+    <div class="container">
+        <ul class="navbar-nav d-flex justify-content-between">
+            <li class="nav-item">
+                <a href="/" class="nav-link"><i class="bi bi-house-door"></i> Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="/about/" class="nav-link"><i class="bi bi-info-circle"></i> About Us</a>
+            </li>
+           
+        </ul>
+    </div>
+</nav>
 
 <main class="contact-main py-5">
     <div class="container">

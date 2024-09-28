@@ -57,7 +57,18 @@ class CustomUserCreationForm(UserCreationForm):
 
 # About Us page
 def about(request):
-    return render(request, 'about.html')
+    mybooks =Book.objects.all()
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+        cart_count = cart.items.count()
+
+    context={
+        'cart_count': cart_count,
+        'mybooks': mybooks,
+    }
+
+    return render(request, 'about.html',context)
 
 # Books page with filters
 def books(request):
@@ -93,6 +104,7 @@ def books(request):
         cart_count = cart.items.count()
 
     context = {
+        'cart_count': cart_count,
         'mybooks': mybooks,
         'genres': genres,
         'authors': authors,
@@ -114,10 +126,16 @@ def book_detail(request, book_id):
 
 # Contact form submission
 def contact_submit(request):
+    mybooks = Book.objects.all()
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+        cart_count = cart.items.count()
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
+        
         
         # Send email
         send_mail(
@@ -198,18 +216,27 @@ def add_to_cart(request, book_id):
         else:
             cart_item.quantity += 1
         cart_item.save()
-        return redirect(request.META.get('HTTP_REFERER', 'home'))
+        return redirect(request.META.get('HTTP_REFERER', 'home','cart'))
     return redirect('login')
 
-# View cart with total price
 def view_cart(request):
+    mybooks = Book.objects.all()
+    cart_count = 0
     if request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user)
         cart_items = cart.items.all()
         total_price = sum(item.book.price * item.quantity for item in cart_items)
-        return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price})
-    return redirect('login')
+        cart_count = cart.items.count()  # Update cart_count based on current cart
 
+        context = {
+            'mybooks': mybooks,
+            'cart_items': cart_items,
+            'total_price': total_price,
+            'cart_count': cart_count,
+        }
+        return render(request, 'cart.html', context)
+    
+    return redirect('login')
 # Update cart item quantity
 def update_cart_item(request, item_id):
     if request.method == "POST" and request.user.is_authenticated:
