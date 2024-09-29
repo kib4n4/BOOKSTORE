@@ -9,6 +9,7 @@ from datetime import timedelta
 from django.db.models import Q, Sum
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
@@ -116,9 +117,16 @@ def books(request):
 
 # Book detail view
 def book_detail(request, book_id):
+    mybook=Book.objects.all()
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+        cart_count = cart.items.count()
     book = get_object_or_404(Book, id=book_id)
     reviews = Review.objects.filter(book=book)
     context = {
+        'mybook':mybook,
+        'cart_count':cart_count,
         'book': book,
         'reviews': reviews,
     }
@@ -126,29 +134,36 @@ def book_detail(request, book_id):
 
 # Contact form submission
 def contact_submit(request):
-    mybooks = Book.objects.all()
-    cart_count = 0
-    if request.user.is_authenticated:
-        cart, _ = Cart.objects.get_or_create(user=request.user)
-        cart_count = cart.items.count()
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
-        
-        
+
+        # Prepare email context
+        email_context = {
+            'name': name,
+            'email': email,
+            'message': message,
+            'current_year': timezone.now().year,
+        }
+
+        # Render the email template
+        email_content = render_to_string('contact_email.html', email_context)
+
         # Send email
         send_mail(
-            f"Message from {name}",
-            message,
-            email,
-            ['support@bookshop.com'],
+            subject=f"Message from {name}",
+            message='',
+            from_email=email,
+            recipient_list=['lusaboke@gmail.com'],
+            html_message=email_content,  # Use the rendered HTML
             fail_silently=False,
         )
+
         messages.success(request, 'Your message has been sent successfully.')
         return redirect('contact')
-    else:
-        return render(request, 'contact.html')
+    
+    return render(request, 'contact.html')
 
 # Contact page
 def contact(request):
@@ -280,9 +295,21 @@ def add_review(request, book_id):
 # Checkout view
 @login_required
 def checkout(request):
-    cart, _ = Cart.objects.get_or_create(user=request.user)
+    mybook = Book.objects.all()
+    
+    # Get the user's cart
+    cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.items.all()
+    cart_count = cart_items.count()
     total_price = sum(item.book.price * item.quantity for item in cart_items)
+
+    # Define the context for rendering
+    context = {
+        'mybook': mybook,
+        'cart_count': cart_count,
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
 
     if request.method == 'POST':
         full_name = request.POST.get('full_name')
@@ -300,7 +327,7 @@ def checkout(request):
             total_amount=total_price
         )
 
-        # Move cart items to the order
+        # Move cart items to the order and update stock
         for item in cart_items:
             OrderItem.objects.create(
                 order=order,
@@ -314,10 +341,10 @@ def checkout(request):
 
         # Clear the cart
         cart.items.all().delete()
-
+        
         return redirect('order_success')
 
-    return render(request, 'checkout.html', {'cart_items': cart_items, 'total_price': total_price})
+    return render(request, 'checkout.html', context)
 
 # Order success page
 def order_success(request):

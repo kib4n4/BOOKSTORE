@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Message</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .content p {
+            margin: 10px 0;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #888;
+            border-top: 1px solid #eaeaea;
+            padding: 10px 0;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .highlight {
+            background-color: #e9f7fe;
+            padding: 10px;
+            border-left: 5px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>New Contact Message</h1>
+    </div>
+    <div class="content">
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+        <div class="highlight">
+            <p><strong>Message:</strong></p>
+            <p>{{ message }}</p>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; {{ current_year }} Books & More Books. All rights reserved.</p>
+    </div>
+</body>
+</html>
