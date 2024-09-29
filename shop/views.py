@@ -342,6 +342,7 @@ def checkout(request):
         # Clear the cart
         cart.items.all().delete()
         
+        
         return redirect('order_success')
 
     return render(request, 'checkout.html', context)
