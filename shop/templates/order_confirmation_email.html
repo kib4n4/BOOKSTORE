@@ -1,32 +1,66 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2, h3, h4 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 5px 0;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
-    <h2>Order Confirmation</h2>
-    <p>Dear {{ user.username }},</p>
-    <p>Thank you for your order! Your order number is <strong>#{{ order.id }}</strong>.</p>
+    <div class="container">
+        <h2>Order Confirmation</h2>
+        <p>Dear {{ user.username }},</p>
+        <p>Thank you for your order! Your order number is <strong>#{{ order.id }}</strong>.</p>
 
-    <h3>Shipping Details</h3>
-    <p><strong>Name:</strong> {{ order.full_name }}</p>
-    <p><strong>Address:</strong> {{ order.address }}</p>
-    <p><strong>City:</strong> {{ order.city }}</p>
-    <p><strong>Postal Code:</strong> {{ order.postal_code }}</p>
+        <h3>Shipping Details</h3>
+        <p><strong>Name:</strong> {{ order.full_name }}</p>
+        <p><strong>Address:</strong> {{ order.address }}</p>
+        <p><strong>City:</strong> {{ order.city }}</p>
+        <p><strong>Postal Code:</strong> {{ order.postal_code }}</p>
 
-    <h3>Order Summary</h3>
-    <ul>
-        {% for item in cart_items %}
-            <li>{{ item.book.title }} - {{ item.quantity }} x ${{ item.book.price }} = ${{ item.quantity|multiply:item.book.price }}</li>
-        {% endfor %}
-    </ul>
-    <h4>Total Amount: ${{ total_price }}</h4>
+        <h3>Order Summary</h3>
+        <ul>
+            {% for item in cart_items %}
+                <li>{{ item.book.title }} - {{ item.quantity }} x ${{ item.book.price }} = ${{ item.quantity|multiply:item.book.price }}</li>
+            {% endfor %}
+        </ul>
+        <h4>Total Amount: ${{ total_price }}</h4>
 
-    <p>We appreciate your business!</p>
-    <p>Best regards,</p>
-    <p>Your Bookstore Team</p>
-    <p>&copy; {{ current_year }} My Bookstore. All rights reserved.</p>
+        <p>We appreciate your business!</p>
+        <p>Best regards,</p>
+        <p>Your Bookstore Team</p>
+    </div>
+    <div class="footer">
+        <p>&copy; {{ current_year }} My Bookstore. All rights reserved.</p>
+    </div>
 </body>
 </html>

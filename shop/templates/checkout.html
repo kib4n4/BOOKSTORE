@@ -59,13 +59,13 @@
         <ul class="list-group mb-3">
             {% for item in item_summaries %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ item.title }} - {{ item.quantity }} x ${{ item.price_per_item }}
+                {{ item.title }} - {{ item.quantity }} x Ksh{{ item.price_per_item }}
                 <span>${{ item.total_price }}</span>
             </li>
             {% endfor %}
         </ul>
 
-        <h4>Total: ${{ total_price }}</h4>
+        <h4>Total: Ksh{{ total_price }}</h4>
 
         <button type="submit" class="btn btn-primary">Place Order</button>
     </form>

@@ -17,7 +17,6 @@ from django.contrib.auth.decorators import login_required
 def search(request):
     query = request.GET.get('query', '')
     
-    # Filter books by title, author, or genre
     if query:
         books = Book.objects.filter(
             Q(title__icontains=query) |
@@ -26,14 +25,11 @@ def search(request):
         )
 
         if books.count() == 1:
-            # If exactly one result, redirect to book detail page
             book = books.first()
             return redirect('book_detail', book_id=book.id)
         elif books.exists():
-            # If multiple results, render the search results page
             return render(request, 'search_results.html', {'mybooks': books, 'query': query})
 
-    # If no query or no books found, return an empty list
     return render(request, 'search_results.html', {'mybooks': [], 'query': query})
 
 # View to handle search suggestions
@@ -44,7 +40,7 @@ def search_suggestions(request):
             Q(title__icontains=query) |
             Q(author__icontains=query) |
             Q(genre__icontains=query)
-        ).values('title')[:5]  # Limit to 5 suggestions
+        ).values('title')[:5]
         return JsonResponse(list(books), safe=False)
     return JsonResponse([], safe=False)
 
@@ -58,18 +54,18 @@ class CustomUserCreationForm(UserCreationForm):
 
 # About Us page
 def about(request):
-    mybooks =Book.objects.all()
+    mybooks = Book.objects.all()
     cart_count = 0
     if request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user)
         cart_count = cart.items.count()
 
-    context={
+    context = {
         'cart_count': cart_count,
         'mybooks': mybooks,
     }
 
-    return render(request, 'about.html',context)
+    return render(request, 'about.html', context)
 
 # Books page with filters
 def books(request):
@@ -77,10 +73,8 @@ def books(request):
     genre = request.GET.get('genre')
     author = request.GET.get('author')
 
-    # Base queryset
     mybooks = Book.objects.all()
 
-    # If search query is provided, filter by title, author, or genre
     if query:
         mybooks = mybooks.filter(
             Q(title__icontains=query) |
@@ -88,11 +82,9 @@ def books(request):
             Q(genre__icontains=query)
         )
 
-    # If genre filter is applied
     if genre:
         mybooks = mybooks.filter(genre=genre)
-    
-    # If author filter is applied
+
     if author:
         mybooks = mybooks.filter(author=author)
 
@@ -109,7 +101,6 @@ def books(request):
         'mybooks': mybooks,
         'genres': genres,
         'authors': authors,
-        'cart_count': cart_count,
         'query': query
     }
 
@@ -117,7 +108,7 @@ def books(request):
 
 # Book detail view
 def book_detail(request, book_id):
-    mybook=Book.objects.all()
+    mybook = Book.objects.all()
     cart_count = 0
     if request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user)
@@ -125,8 +116,8 @@ def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     reviews = Review.objects.filter(book=book)
     context = {
-        'mybook':mybook,
-        'cart_count':cart_count,
+        'mybook': mybook,
+        'cart_count': cart_count,
         'book': book,
         'reviews': reviews,
     }
@@ -139,7 +130,6 @@ def contact_submit(request):
         email = request.POST.get('email')
         message = request.POST.get('message')
 
-        # Prepare email context
         email_context = {
             'name': name,
             'email': email,
@@ -147,16 +137,14 @@ def contact_submit(request):
             'current_year': timezone.now().year,
         }
 
-        # Render the email template
         email_content = render_to_string('contact_email.html', email_context)
 
-        # Send email
         send_mail(
             subject=f"Message from {name}",
             message='',
             from_email=email,
             recipient_list=['lusaboke@gmail.com'],
-            html_message=email_content,  # Use the rendered HTML
+            html_message=email_content,
             fail_silently=False,
         )
 
@@ -226,12 +214,16 @@ def add_to_cart(request, book_id):
         book = get_object_or_404(Book, id=book_id)
         cart, _ = Cart.objects.get_or_create(user=request.user)
         cart_item, created = CartItem.objects.get_or_create(cart=cart, book=book)
+        
         if created:
             cart_item.quantity = 1
         else:
             cart_item.quantity += 1
+        
         cart_item.save()
-        return redirect(request.META.get('HTTP_REFERER', 'home','cart'))
+        
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+    
     return redirect('login')
 
 def view_cart(request):
@@ -241,7 +233,7 @@ def view_cart(request):
         cart, _ = Cart.objects.get_or_create(user=request.user)
         cart_items = cart.items.all()
         total_price = sum(item.book.price * item.quantity for item in cart_items)
-        cart_count = cart.items.count()  # Update cart_count based on current cart
+        cart_count = cart.items.count()
 
         context = {
             'mybooks': mybooks,
@@ -252,6 +244,7 @@ def view_cart(request):
         return render(request, 'cart.html', context)
     
     return redirect('login')
+
 # Update cart item quantity
 def update_cart_item(request, item_id):
     if request.method == "POST" and request.user.is_authenticated:
@@ -303,7 +296,6 @@ def checkout(request):
     cart_count = cart_items.count()
     total_price = sum(item.book.price * item.quantity for item in cart_items)
 
-    # Define the context for rendering
     context = {
         'mybook': mybook,
         'cart_count': cart_count,
@@ -329,19 +321,45 @@ def checkout(request):
 
         # Move cart items to the order and update stock
         for item in cart_items:
-            OrderItem.objects.create(
-                order=order,
-                book=item.book,
-                quantity=item.quantity,
-                price=item.book.price
-            )
-            # Reduce book stock
-            item.book.stock -= item.quantity
-            item.book.save()
+            if item.book.stock >= item.quantity:  # Ensure stock is sufficient
+                OrderItem.objects.create(
+                    order=order,
+                    book=item.book,
+                    quantity=item.quantity,
+                    price=item.book.price
+                )
+                # Reduce book stock
+                item.book.stock -= item.quantity
+                item.book.save()
+            else:
+                messages.error(request, f"Insufficient stock for {item.book.title}.")
+                return redirect('view_cart')  # Redirect if stock is insufficient
 
         # Clear the cart
         cart.items.all().delete()
-        
+
+        # Prepare email context
+        email_context = {
+            'user': request.user,
+            'order': order,
+            'cart_items': cart_items,
+            'total_price': total_price,
+            'current_year': timezone.now().year,
+        }
+
+        # Render the email template
+        email_subject = 'Order Confirmation - Order #{}'.format(order.id)
+        email_body = render_to_string('order_confirmation_email.html', email_context)
+
+        # Send email to the user
+        send_mail(
+            subject=email_subject,
+            message='',
+            from_email='lusaboke@gmail.com',  # Use your business email
+            recipient_list=[request.user.email, 'lusaboke@gmail.com'],
+            html_message=email_body,
+            fail_silently=False,
+        )    
         
         return redirect('order_success')
 
