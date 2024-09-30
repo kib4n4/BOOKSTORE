@@ -50,10 +50,10 @@
         <h3>Order Summary</h3>
         <ul>
             {% for item in cart_items %}
-                <li>{{ item.book.title }} - {{ item.quantity }} x ${{ item.book.price }} = ${{ item.quantity|multiply:item.book.price }}</li>
+                <li>{{ item.book.title }} - {{ item.quantity }} x Ksh{{ item.book.price }} = Ksh{{ item.quantity|multiply:item.book.price }}</li>
             {% endfor %}
         </ul>
-        <h4>Total Amount: ${{ total_price }}</h4>
+        <h4>Total Amount: Ksh {{ total_price }}</h4>
 
         <p>We appreciate your business!</p>
         <p>Best regards,</p>

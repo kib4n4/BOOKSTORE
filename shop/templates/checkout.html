@@ -60,7 +60,7 @@
             {% for item in item_summaries %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ item.title }} - {{ item.quantity }} x Ksh{{ item.price_per_item }}
-                <span>${{ item.total_price }}</span>
+                <span>Ksh {{ item.total_price }}</span>
             </li>
             {% endfor %}
         </ul>
