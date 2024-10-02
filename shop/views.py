@@ -143,7 +143,7 @@ def contact_submit(request):
             subject=f"Message from {name}",
             message='',
             from_email=email,
-            recipient_list=['lusaboke@gmail.com'],
+            recipient_list=['versebookstore@gmail.com'],
             html_message=email_content,
             fail_silently=False,
         )
@@ -355,8 +355,8 @@ def checkout(request):
         send_mail(
             subject=email_subject,
             message='',
-            from_email='lusaboke@gmail.com',  # Use your business email
-            recipient_list=[request.user.email, 'lusaboke@gmail.com'],
+            from_email='versebookstore@gmail.com',  # Use your business email
+            recipient_list=[request.user.email, 'versebookstore@gmail.com'],
             html_message=email_body,
             fail_silently=False,
         )    
