@@ -30,7 +30,7 @@
 </header>
 
 <!-- Navigation Menu -->
-<nav class="navbar navbar-expand-lg" style="background-color: skyblue;">
+<nav class="navbar navbar-expand" style="background-color: skyblue;">
     <div class="container">
         <ul class="navbar-nav d-flex justify-content-between">
             <li class="nav-item">
@@ -64,8 +64,8 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h1>{{ book.title }}</h1>
-                    <p><strong>Author:</strong> {{ book.author }}</p>
+                    <h1 class="book-title">{{ book.title }}</h1>
+                    <p class="book-author"><strong>Author:</strong> {{ book.author }}</p>
                     <p><strong>Genre:</strong> {{ book.genre }}</p>
                     <p><strong>Price:</strong> Ksh{{ book.price }}</p>
                     <p><strong>Stock:</strong> {{ book.stock }}</p>
