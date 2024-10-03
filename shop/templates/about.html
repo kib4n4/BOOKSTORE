@@ -22,7 +22,7 @@
 <body>
     <header class="header bg-dark text-white py-3">
       <div class="container d-flex justify-content-between align-items-center">
-        <h1 class="logo">Books & More Books</h1>
+        <h1 class="logo">Verse Bookstore</h1>
         <div class="user-auth d-flex">
           {% if user.is_authenticated %}
           <a href="{% url 'logout' %}" class="btn btn-outline-light"><i class="bi bi-box-arrow-right"></i> Logout</a>
@@ -62,7 +62,7 @@
 
     <footer class="bg-dark text-white py-4">
       <div class="container d-flex justify-content-between align-items-center">
-        <p class="mb-0">&copy; {{ current_year }} Books & More Books. All rights reserved.</p>
+        <p class="mb-0">&copy; {{ current_year }} Verse Bookstore. All rights reserved.</p>
         <ul class="list-inline mb-0">
           <li class="list-inline-item"><a href="#" class="text-white"><i class="bi bi-facebook"></i></a></li>
           <li class="list-inline-item"><a href="#" class="text-white"><i class="bi bi-twitter"></i></a></li>
