@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>verse Bookstore</title>
+    <title>Verse Bookstore</title>
 
     <!-- Favicon -->
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
@@ -66,9 +66,13 @@
             </li>
         </ul>
     </div>
-   
 </nav>
 
+<!-- Banner Section -->
+<div class="banner text-center py-4" style="background-color: skyblue; max-height:100vh;">
+    <h2>Welcome to Verse Bookstore!</h2>
+    <p>Explore our collection of books and find your next great read.</p>
+</div>
 
 <main class="main-content py-5">
     <div class="container">
@@ -89,8 +93,8 @@
                             {% endif %}
                         </div>
                         <div class="card-body">
-                            <h6 class="card-title text-truncate">{{ x.title }}</h6> <!-- Truncate title for consistency -->
-                            <p class="card-author text-muted text-truncate">{{ x.author }}</p> <!-- Truncate author -->
+                            <h6 class="card-title text-truncate">{{ x.title }}</h6>
+                            <p class="card-author text-muted text-truncate">{{ x.author }}</p>
                             <p class="card-price">Ksh{{ x.price }}</p>
                             {% if x.stock > 0 %}
                             <p class="text-success small">In Stock</p>
@@ -98,7 +102,7 @@
                             <p class="text-danger small">Out of Stock</p>
                             {% endif %}
                         </div>
-                        <div class="card-footer d-flex justify-content-between p-2"> <!-- Minimized padding -->
+                        <div class="card-footer d-flex justify-content-between p-2">
                             {% if x.stock > 0 %}
                             <a href="{% url 'add_to_cart' x.id %}" class="btn btn-sm btn-primary">
                                 <i class="bi bi-cart-plus"></i> Add to Cart
@@ -118,7 +122,6 @@
             </div>
             {% else %}
             <p class="text-center">No books found for your search.</p>
-
             {% endif %}
         </section>
     </div>
