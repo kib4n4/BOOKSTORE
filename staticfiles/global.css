@@ -150,6 +150,74 @@ body {
   color: #fff; /* Invert colors on hover */
 }
 
+/* Banner Styles */
+.banner {
+  height: 500px; /* Fixed height */
+  width: 100%; /* Full width */
+  background-color: skyblue; /* Subtle blue background */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centered vertically */
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-book {
+  background-color: #ffca28; /* Softer yellow for a modern look */
+  border: 2px solid #f8f9fa; /* Slightly thicker border */
+  border-radius: 15px; /* Rounded corners for a softer appearance */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 600px; /* Fixed width for uniformity */
+  height: 450px; /* Fixed height for uniformity */
+  position: absolute; /* Positioned relative to the banner */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centered position */
+  text-align: center;
+  padding: 20px; /* Add some padding for better spacing */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  animation: fadein 5s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+  padding: 20px; /* Add some padding for better spacing */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  animation: fadein 5s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+}
+
+.banner-book-info {
+  max-width: 350px; /* Set max-width for text */
+  text-align: left;
+}
+
+.banner-book-title {
+  font-size: 2rem;
+  font-family: 'Times New Roman', Times, serif; 
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.banner-book-img {
+  height: 350px; /* Fixed height for the image */
+  width: auto; /* Maintain aspect ratio */
+  margin-right: 20px;
+  object-fit: contain; /* Ensure image fits within the container */
+}
+
+/* Keyframes for Fade-in Animation */
+@keyframes fadein {
+  0%, 100% {
+      opacity: 0;
+  }
+  10%, 90% {
+      opacity: 1;
+  }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 576px) {
   .form-control {
@@ -160,15 +228,12 @@ body {
       margin-bottom: 1.5rem;
   }
 
-  .header {
-      padding: 1rem 0;
+  .banner-book {
+      width: 90%; /* Adjust width for smaller screens */
+      height: auto; /* Allow height to adjust */
   }
-}
-.box{
-  width: 200px;
-  height: 100px;
-  border: 1px solid black;
-  padding: 10px;
-  margin: 10px;
 
+  .banner {
+      height: auto; /* Allow banner height to adjust */
+  }
 }

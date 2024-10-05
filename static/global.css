@@ -150,6 +150,62 @@ body {
   color: #fff; /* Invert colors on hover */
 }
 
+/* Banner Styles */
+.banner {
+  height: 500px;
+  background-color: skyblue; /* Subtle blue background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-book {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Ensure full width for alignment */
+  animation: fadein 5s ease-in-out infinite;
+  opacity: 0;
+}
+
+.banner-book-info {
+  max-width: 400px; /* Set max-width for text */
+  text-align: left;
+}
+
+.banner-book-title {
+  font-size: 2rem;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.banner-book-description {
+  font-size: 1rem;
+  color: #f8f9fa;
+  line-height: 1.5;
+  max-height: 200px;
+  overflow-y: hidden;
+}
+
+.banner-book-img {
+  height: 300px;
+  width: auto;
+  margin-right: 20px;
+  object-fit: contain;
+}
+
+@keyframes fadein {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 576px) {
   .form-control {
@@ -163,12 +219,4 @@ body {
   .header {
       padding: 1rem 0;
   }
-}
-.box{
-  width: 200px;
-  height: 100px;
-  border: 1px solid black;
-  padding: 10px;
-  margin: 10px;
-
 }
