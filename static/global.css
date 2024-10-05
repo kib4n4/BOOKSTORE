@@ -37,186 +37,67 @@ body {
   padding: 0.5rem 1rem;
 }
 
-/* Book Card Styling */
-.book-card {
-  background-color: #fff;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
-  overflow: hidden;
-}
-
-.book-card:hover {
-  transform: translateY(-10px); /* Slight lift on hover */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Increase shadow depth on hover */
-}
-
-/* Image Container */
-.card-img-container {
-  height: 160px; /* Fixed height for uniform cards */
-  overflow: hidden;
-  background-color: #f8f9fa; /* Light gray fallback */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card-img-top {
-  max-height: 100%;
-  width: auto;
-  object-fit: cover;
-}
-
-/* No Image Placeholder */
-.no-image {
-  font-size: 1rem;
-  color: #6c757d;
-}
-
-/* Card Body */
-.card-body {
-  padding: 1rem;
-  text-align: center;
-  background-color: #fff;
-}
-
-.card-title {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Prevent title overflow */
-}
-
-.card-author {
-  font-size: 0.85rem;
-  color: #6c757d;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 0.5rem;
-}
-
-.card-price {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #28a745;
-  margin-bottom: 0.5rem;
-}
-
-.text-success, .text-danger {
-  font-size: 0.8rem; /* Slightly smaller for stock info */
-}
-
-/* Card Footer */
-.card-footer {
-  background-color: #f8f9fa;
-  border-top: 1px solid #ddd;
-  padding: 0.75rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Button Styles */
-.btn-sm {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  border: none;
-  border-radius: 20px;
-  transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-}
-
-.btn-outline-info {
-  border: 1px solid #17a2b8;
-  color: #17a2b8;
-  border-radius: 20px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-outline-info:hover {
-  background-color: #17a2b8;
-  color: #fff; /* Invert colors on hover */
-}
-
-/* Banner Styles */
+/* Redesigned Banner Styles */
 .banner {
-  height: 500px;
-  background-color: skyblue; /* Subtle blue background */
+  height: 500px; /* Fixed height */
+  width: 100%; /* Full width */
+  background: linear-gradient(to right, #6a82fb, #fc5c7d); /* Gradient background */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Centered vertically */
   position: relative;
   overflow: hidden;
+  padding: 20px;
 }
 
-.banner-book {
+.banner-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%; /* Ensure full width for alignment */
-  animation: fadein 5s ease-in-out infinite;
-  opacity: 0;
+  max-width: 1200px; /* Limit the width */
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  padding: 20px;
 }
 
-.banner-book-info {
-  max-width: 400px; /* Set max-width for text */
-  text-align: left;
-}
-
-.banner-book-title {
-  font-size: 2rem;
-  color: #fff;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.banner-book-description {
-  font-size: 1rem;
-  color: #f8f9fa;
-  line-height: 1.5;
-  max-height: 200px;
-  overflow-y: hidden;
+.banner-carousel {
+  width: 100%;
 }
 
 .banner-book-img {
-  height: 300px;
-  width: auto;
-  margin-right: 20px;
-  object-fit: contain;
+  height: 350px; /* Fixed height for the image */
+  width: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Rounded corners for the image */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for the image */
+  margin-right: 20px; /* Space between image and text */
 }
 
-@keyframes fadein {
-  0%, 100% {
-    opacity: 0;
-  }
-  10%, 90% {
-    opacity: 1;
-  }
+.banner-book-info {
+  max-width: 500px; /* Limit width of description */
 }
 
-/* Responsive Adjustments */
-@media (max-width: 576px) {
-  .form-control {
-      width: 100%;
-  }
+.banner-book-title {
+  font-size: 1.5rem;
+  font-family: 'Arial', sans-serif; 
+  color: #333;
+  font-weight: bold;
+  margin: 10px 0;
+}
 
-  .book-card {
-      margin-bottom: 1.5rem;
-  }
+.banner-book-description {
+  font-size: 0.9rem;
+  color: #666;
+}
 
-  .header {
-      padding: 1rem 0;
-  }
+/* Other existing styles remain unchanged... */
+
+/* Footer Styles */
+footer {
+  background-color: #212529; /* Dark background */
+  padding: 1.5rem 0;
+  color: white;
+  text-align: center;
 }

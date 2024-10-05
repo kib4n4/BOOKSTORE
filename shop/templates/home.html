@@ -68,14 +68,32 @@
     </div>
 </nav>
 
-<!-- Updated Banner Section with Single Book Display -->
-<div class="banner py-5 d-flex justify-content-center align-items-center">
-    <div id="banner-slider" class="d-flex align-items-center">
-        <div class="banner-book">
-            <img src="{{ mybooks.0.image.url }}" alt="{{ mybooks.0.title }}" class="banner-book-img" />
-            <div class="banner-book-info">
-                <h2 class="banner-book-title">{{ mybooks.0.title }}</h2>
-                <p class="banner-book-description">{{ mybooks.0.description }}</p>
+<!-- Updated Banner Section with Carousel -->
+<div class="banner">
+    <div class="banner-content">
+        <div class="banner-carousel">
+            <div class="carousel slide" id="bookCarousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for x in mybooks %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ x.image.url }}" alt="{{ x.title }}" class="banner-book-img" />
+                            <div class="banner-book-info">
+                                <h2 class="banner-book-title">{{ x.title }}</h2>
+                                <p class="banner-book-description">{{ x.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
     </div>
@@ -192,37 +210,5 @@
     });
 </script>
 
-<!-- Updated Banner Rotation Script -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let currentBookIndex = 0;
-        const books = [
-            {% for x in mybooks %}
-            {
-                title: "{{ x.title }}",
-                description: "{{ x.description }}",
-                imageUrl: "{{ x.image.url }}"
-            },
-            {% endfor %}
-        ];
-
-        function displayBook(book) {
-            const bannerBookImg = document.querySelector('.banner-book-img');
-            const bannerBookTitle = document.querySelector('.banner-book-title');
-            const bannerBookDescription = document.querySelector('.banner-book-description');
-
-            bannerBookImg.src = book.imageUrl;
-            bannerBookTitle.textContent = book.title;
-            bannerBookDescription.textContent = book.description;
-        }
-
-        function nextBook() {
-            currentBookIndex = (currentBookIndex + 1) % books.length;
-            displayBook(books[currentBookIndex]);
-        }
-
-        setInterval(nextBook, 5000); // Change book every 5 seconds
-    });
-</script>
 </body>
 </html>

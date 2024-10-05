@@ -37,6 +37,61 @@ body {
   padding: 0.5rem 1rem;
 }
 
+/* Redesigned Banner Styles */
+.banner {
+  height: 500px; /* Fixed height */
+  width: 100%; /* Full width */
+  background: linear-gradient(to right, #6a82fb, #fc5c7d); /* Gradient background */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centered vertically */
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.banner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px; /* Limit the width */
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  padding: 20px;
+}
+
+.banner-carousel {
+  width: 100%;
+}
+
+.banner-book-img {
+  height: 350px; /* Fixed height for the image */
+  width: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Rounded corners for the image */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for the image */
+  margin-right: 20px; /* Space between image and text */
+}
+
+.banner-book-info {
+  max-width: 500px; /* Limit width of description */
+}
+
+.banner-book-title {
+  font-size: 1.5rem;
+  font-family: 'Arial', sans-serif; 
+  color: #333;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.banner-book-description {
+  font-size: 0.9rem;
+  color: #666;
+}
+
 /* Book Card Styling */
 .book-card {
   background-color: #fff;
@@ -44,18 +99,13 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
+  height: 300px; /* Set a fixed height */
   overflow: hidden;
-}
-
-.book-card:hover {
-  transform: translateY(-10px); /* Slight lift on hover */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Increase shadow depth on hover */
 }
 
 /* Image Container */
 .card-img-container {
-  height: 160px; /* Fixed height for uniform cards */
+  height: 150px; /* Reduced height for uniform cards */
   overflow: hidden;
   background-color: #f8f9fa; /* Light gray fallback */
   display: flex;
@@ -69,21 +119,15 @@ body {
   object-fit: cover;
 }
 
-/* No Image Placeholder */
-.no-image {
-  font-size: 1rem;
-  color: #6c757d;
-}
-
 /* Card Body */
 .card-body {
-  padding: 1rem;
+  padding: 0.5rem; /* Reduced padding */
   text-align: center;
   background-color: #fff;
 }
 
 .card-title {
-  font-size: 1rem;
+  font-size: 1rem; /* Slightly smaller font size */
   font-weight: bold;
   color: #333;
   white-space: nowrap;
@@ -92,30 +136,30 @@ body {
 }
 
 .card-author {
-  font-size: 0.85rem;
+  font-size: 0.75rem; /* Smaller font size */
   color: #6c757d;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* Reduced margin */
 }
 
 .card-price {
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Slightly smaller font size */
   font-weight: bold;
   color: #28a745;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* Reduced margin */
 }
 
 .text-success, .text-danger {
-  font-size: 0.8rem; /* Slightly smaller for stock info */
+  font-size: 0.7rem; /* Smaller for stock info */
 }
 
 /* Card Footer */
 .card-footer {
   background-color: #f8f9fa;
   border-top: 1px solid #ddd;
-  padding: 0.75rem;
+  padding: 0.5rem; /* Reduced padding */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -123,117 +167,14 @@ body {
 
 /* Button Styles */
 .btn-sm {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
+  font-size: 0.65rem; /* Smaller button text */
+  padding: 0.25rem 0.5rem; /* Adjusted padding */
 }
 
-.btn-primary {
-  background-color: #007bff;
-  border: none;
-  border-radius: 20px;
-  transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-}
-
-.btn-outline-info {
-  border: 1px solid #17a2b8;
-  color: #17a2b8;
-  border-radius: 20px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-outline-info:hover {
-  background-color: #17a2b8;
-  color: #fff; /* Invert colors on hover */
-}
-
-/* Banner Styles */
-.banner {
-  height: 500px; /* Fixed height */
-  width: 100%; /* Full width */
-  background-color: skyblue; /* Subtle blue background */
-  display: flex;
-  justify-content: center;
-  align-items: center; /* Centered vertically */
-  position: relative;
-  overflow: hidden;
-}
-
-.banner-book {
-  background-color: #ffca28; /* Softer yellow for a modern look */
-  border: 2px solid #f8f9fa; /* Slightly thicker border */
-  border-radius: 15px; /* Rounded corners for a softer appearance */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 600px; /* Fixed width for uniformity */
-  height: 450px; /* Fixed height for uniformity */
-  position: absolute; /* Positioned relative to the banner */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Centered position */
+/* Footer Styles */
+footer {
+  background-color: #212529; /* Dark background */
+  padding: 1.5rem 0;
+  color: white;
   text-align: center;
-  padding: 20px; /* Add some padding for better spacing */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  animation: fadein 5s ease-in-out infinite;
-  opacity: 0;
-  transition: opacity 0.5s ease; /* Smooth transition for opacity */
-  padding: 20px; /* Add some padding for better spacing */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  animation: fadein 5s ease-in-out infinite;
-  opacity: 0;
-  transition: opacity 0.5s ease; /* Smooth transition for opacity */
-}
-
-.banner-book-info {
-  max-width: 350px; /* Set max-width for text */
-  text-align: left;
-}
-
-.banner-book-title {
-  font-size: 2rem;
-  font-family: 'Times New Roman', Times, serif; 
-  color: #fff;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.banner-book-img {
-  height: 350px; /* Fixed height for the image */
-  width: auto; /* Maintain aspect ratio */
-  margin-right: 20px;
-  object-fit: contain; /* Ensure image fits within the container */
-}
-
-/* Keyframes for Fade-in Animation */
-@keyframes fadein {
-  0%, 100% {
-      opacity: 0;
-  }
-  10%, 90% {
-      opacity: 1;
-  }
-}
-
-/* Responsive Adjustments */
-@media (max-width: 576px) {
-  .form-control {
-      width: 100%;
-  }
-
-  .book-card {
-      margin-bottom: 1.5rem;
-  }
-
-  .banner-book {
-      width: 90%; /* Adjust width for smaller screens */
-      height: auto; /* Allow height to adjust */
-  }
-
-  .banner {
-      height: auto; /* Allow banner height to adjust */
-  }
 }
