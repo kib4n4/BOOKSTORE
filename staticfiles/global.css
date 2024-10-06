@@ -118,6 +118,7 @@ body {
 }
 
 .card-img-top {
+  padding: 12px;
   max-height: 100%;
   width: auto;
   object-fit: cover;
