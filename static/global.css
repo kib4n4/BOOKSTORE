@@ -83,15 +83,16 @@ body {
 .banner-book-title {
   font-size: 40px; /* Adjusted font size */
   font-family: 'Georgia', serif; /* Changed font style */
-  color: #333;
-  font-weight: bold;
+  background: linear-gradient(to right, #6a82fb, #fc5c7d); /* Gradient font color */
+  -webkit-background-clip: text; /* Clip background to text */
+  -webkit-text-fill-color: transparent; /* Make text fill transparent */
   margin: 10px 0;
   text-align: center; /* Centered title */
 }
 
 .banner-book-description {
   font-size: 1rem; /* Adjusted font size */
-  color: #666;
+  color: #666; /* Keeping a solid color for description */
   text-align: center; /* Centered description */
 }
 
