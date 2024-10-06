@@ -4,6 +4,7 @@ body {
   background-color: #f4f4f9; /* Soft light gray background for a clean look */
   margin: 0;
   padding: 0;
+  background: linear-gradient(to left, #6a82fb, #fc5c7d); /* Gradient background */
 }
 
 /* Header Styles */
@@ -80,19 +81,98 @@ body {
 }
 
 .banner-book-title {
-  font-size: 1.5rem;
-  font-family: 'Arial', sans-serif; 
+  font-size: 40px; /* Adjusted font size */
+  font-family: 'Georgia', serif; /* Changed font style */
   color: #333;
   font-weight: bold;
   margin: 10px 0;
+  text-align: center; /* Centered title */
 }
 
 .banner-book-description {
-  font-size: 0.9rem;
+  font-size: 1rem; /* Adjusted font size */
   color: #666;
+  text-align: center; /* Centered description */
 }
 
-/* Other existing styles remain unchanged... */
+/* Book Card Styling */
+.book-card {
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 300px; /* Set a fixed height */
+  overflow: hidden;
+}
+
+/* Image Container */
+.card-img-container {
+  height: 150px; /* Reduced height for uniform cards */
+  overflow: hidden;
+  background-color: #f8f9fa; /* Light gray fallback */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-img-top {
+  max-height: 100%;
+  width: auto;
+  object-fit: cover;
+}
+
+/* Card Body */
+.card-body {
+  padding: 0.5rem; /* Reduced padding */
+  text-align: center;
+  background-color: #fff;
+}
+
+.card-title {
+  font-size: 1rem; /* Slightly smaller font size */
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Prevent title overflow */
+}
+
+.card-author {
+  font-size: 0.75rem; /* Smaller font size */
+  color: #6c757d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem; /* Reduced margin */
+}
+
+.card-price {
+  font-size: 0.85rem; /* Slightly smaller font size */
+  font-weight: bold;
+  color: #28a745;
+  margin-bottom: 0.25rem; /* Reduced margin */
+}
+
+.text-success, .text-danger {
+  font-size: 0.7rem; /* Smaller for stock info */
+}
+
+/* Card Footer */
+.card-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  padding: 0.5rem; /* Reduced padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Button Styles */
+.btn-sm {
+  font-size: 0.65rem; /* Smaller button text */
+  padding: 0.25rem 0.5rem; /* Adjusted padding */
+}
 
 /* Footer Styles */
 footer {
